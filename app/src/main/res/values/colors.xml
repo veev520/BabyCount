@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="colorDisable">#B2B2B2</color>
+
+    <!--新颜色值-->
+    <color name="colorDelete">#f64a4a</color>
+    <color name="colorIconNor">#cbd1d9</color>
+    <color name="colorTextBackground">#ffffff</color>
+    <color name="colorBackground">#F1F4F8</color>
+    <color name="colorTextPrimary">#000000</color>
+    <color name="colorTextPrimaryLight">#FFFFFF</color>
+    <color name="colorTextSecondary">#676767</color>
+    <color name="colorTextState">#868686</color>
+    <color name="colorDivider">#B2B2B2</color>
+    <color name="colorLightGreen">#f2faed</color>
+</resources>

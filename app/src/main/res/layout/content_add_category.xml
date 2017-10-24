@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="club.veev.babycount.AddRecordActivity"
+    tools:showIn="@layout/activity_add_category"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/add_category_relative_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp">
+
+        <ImageView
+            android:id="@+id/add_category_image_name"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_name_grey_24dp" />
+
+        <EditText
+            android:id="@+id/add_category_edit_name"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@+id/add_category_image_name"
+            android:background="@null"
+            android:textColorHint="@color/colorTextState"
+            android:textColor="@color/colorTextPrimary"
+            android:gravity="center_vertical|start"
+            android:textSize="@dimen/text_size_body"
+            android:hint="@string/Category_Name"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:lines="1" />
+
+        <View
+            android:id="@+id/add_category_view_name"
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_marginTop="16dp"
+            android:layout_below="@+id/add_category_edit_name"
+            android:layout_alignStart="@+id/add_category_edit_name"
+            android:background="@color/colorDivider" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/add_category_relative_unit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:paddingTop="16dp">
+
+        <ImageView
+            android:id="@+id/add_category_image_unit"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_unit2_grey_24dp" />
+
+        <EditText
+            android:id="@+id/add_category_edit_unit"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@+id/add_category_image_unit"
+            android:background="@null"
+            android:textColorHint="@color/colorTextState"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="@dimen/text_size_body"
+            android:hint="@string/Category_Unit"
+            android:gravity="center_vertical|start"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:lines="1" />
+
+        <View
+            android:id="@+id/add_category_view_unit"
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_marginTop="16dp"
+            android:layout_below="@+id/add_category_edit_unit"
+            android:layout_alignStart="@+id/add_category_edit_unit"
+            android:background="@color/colorDivider" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/add_category_relative_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:paddingTop="16dp">
+
+        <ImageView
+            android:id="@+id/add_category_image_desc"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_description_grey_24dp" />
+
+        <TextView
+            android:id="@+id/add_category_text_desc"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@+id/add_category_image_desc"
+            android:textSize="@dimen/text_size_body"
+            android:gravity="center_vertical|start"
+            android:hint="@string/Category_Desc"
+            android:textColorHint="@color/colorTextState"
+            android:textColor="@color/colorTextPrimary"
+            android:maxLines="2"
+            android:ellipsize="end"/>
+
+        <View
+            android:id="@+id/add_category_view_desc"
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_marginTop="16dp"
+            android:layout_below="@+id/add_category_text_desc"
+            android:layout_alignStart="@+id/add_category_text_desc"
+            android:background="@color/colorDivider" />
+    </RelativeLayout>
+</LinearLayout>

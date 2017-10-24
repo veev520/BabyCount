@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="club.veev.babycount.AddPersonActivity"
+    tools:showIn="@layout/activity_add_person">
+
+    <RelativeLayout
+        android:id="@+id/add_person_relative_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp">
+
+        <ImageView
+            android:id="@+id/add_person_image_name"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_name_grey_24dp" />
+
+        <EditText
+            android:id="@+id/add_person_edit_name"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@+id/add_person_image_name"
+            android:background="@null"
+            android:textColorHint="@color/colorTextState"
+            android:textColor="@color/colorTextPrimary"
+            android:gravity="center_vertical|start"
+            android:textSize="@dimen/text_size_body"
+            android:hint="@string/Category_Name"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:lines="1" />
+
+        <View
+            android:id="@+id/add_person_view_name"
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_marginTop="16dp"
+            android:layout_below="@+id/add_person_edit_name"
+            android:layout_alignStart="@+id/add_person_edit_name"
+            android:background="@color/colorDivider" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/add_person_relative_avatar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:paddingTop="16dp">
+
+        <ImageView
+            android:id="@+id/add_person_image_avatar"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_face_grey_24dp" />
+
+        <LinearLayout
+            android:id="@+id/add_person_linear_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/add_person_image_avatar"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/add_person_image_avatar_pic"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_gravity="center_horizontal"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/ic_launcher" />
+
+            <TextView
+                android:id="@+id/add_person_text_avatar_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:text="@string/Person_Avatar"
+                android:textColor="@color/colorTextState" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/add_person_view_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_marginTop="16dp"
+            android:layout_below="@+id/add_person_linear_avatar"
+            android:layout_alignStart="@+id/add_person_linear_avatar"
+            android:background="@color/colorDivider" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/add_person_relative_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:paddingTop="16dp">
+
+        <ImageView
+            android:id="@+id/add_person_image_desc"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_description_grey_24dp" />
+
+        <TextView
+            android:id="@+id/add_person_text_desc"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@+id/add_person_image_desc"
+            android:textSize="@dimen/text_size_body"
+            android:gravity="center_vertical|start"
+            android:hint="@string/Category_Desc"
+            android:textColorHint="@color/colorTextState"
+            android:textColor="@color/colorTextPrimary"
+            android:maxLines="2"
+            android:ellipsize="end"/>
+
+        <View
+            android:id="@+id/add_person_view_desc"
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_marginTop="16dp"
+            android:layout_below="@+id/add_person_text_desc"
+            android:layout_alignStart="@+id/add_person_text_desc"
+            android:background="@color/colorDivider" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/add_person_relative_use_immediately"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:paddingTop="16dp">
+
+        <ImageView
+            android:id="@+id/add_person_image_use_immediately"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_access_time_grey_24dp" />
+
+        <TextView
+            android:id="@+id/add_person_text_use_immediately"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@+id/add_person_image_use_immediately"
+            android:textSize="@dimen/text_size_body"
+            android:gravity="center_vertical|start"
+            android:text="@string/Common_Use_Immediately"
+            android:textColor="@color/colorTextState"
+            android:maxLines="2"
+            android:ellipsize="end"/>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/add_person_switch_use_immediately"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/add_person_text_use_immediately"
+            android:layout_alignBottom="@+id/add_person_text_use_immediately"
+            android:layout_marginEnd="16dp"
+            android:layout_alignParentEnd="true" />
+
+        <View
+            android:id="@+id/add_person_view_use_immediately"
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_marginTop="16dp"
+            android:layout_below="@+id/add_person_text_use_immediately"
+            android:layout_alignStart="@+id/add_person_text_use_immediately"
+            android:background="@color/colorDivider" />
+    </RelativeLayout>
+</LinearLayout>

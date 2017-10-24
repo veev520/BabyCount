@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Baby Count</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">设置</string>
+
+    <string name="title_activity_add_record">记录</string>
+    <string name="title_activity_add_category">添加分类</string>
+    <string name="title_activity_select_source">选择Source</string>
+    <string name="title_activity_add_person">添加人物</string>
+    <string name="title_activity_select_target">选择Target</string>
+    <string name="title_activity_add_place">添加地点</string>
+    <string name="title_activity_select_place">选择地点</string>
+
+    <string name="Category_Already_Exists">该分类已存在</string>
+    <string name="Place_Already_Exists">该地点已存在</string>
+
+    <string name="Common_Add_Successful">添加成功</string>
+    <string name="Category_Name">名称</string>
+    <string name="Category_Desc">描述</string>
+    <string name="Category_Place">地点</string>
+    <string name="Category_Source">Source</string>
+    <string name="Category_Target">Target</string>
+    <string name="Category_Unit">单位</string>
+    <string name="Place_Location">位置</string>
+    <string name="Person_Avatar">头像</string>
+    <string name="Place_Select_None">暂不选择</string>
+    <string name="CATEGORY_IS_EMPTY">还未添加种类</string>
+    <string name="Common_Not_Null">不可为空</string>
+    <string name="Common_Sure">确定</string>
+    <string name="Common_Cancel">取消</string>
+    <string name="Common_Go_To_Add">去添加</string>
+    <string name="Common_Use_Immediately">立即使用</string>
+    <string name="Record_Add">+</string>
+    <string name="Record_Value">数据</string>
+
+</resources>
