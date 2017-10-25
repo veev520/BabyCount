@@ -53,7 +53,7 @@ public class RecordFragment extends BaseFragment {
             }
         };
         mLocalBroadcastManager.registerReceiver(mBroadcastReceiver,
-                new IntentFilter(Category.class.getName()));
+                new IntentFilter(C.event.CATEGORY_CHANGED));
     }
 
     @Override

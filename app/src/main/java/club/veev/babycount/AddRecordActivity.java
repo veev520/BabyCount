@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -139,6 +140,11 @@ public class AddRecordActivity extends BaseActivity {
                         mTargetId,
                         mSourceId,
                         mCalendarInit.getTimeInMillis());
+
+                Intent intent = new Intent(C.event.RECORD_CHANGED);
+                intent.putExtra(C.key.RECORD_ID, mCountCategoryRecyclerAdapter.getCheckedCategory().getId());
+                LocalBroadcastManager.getInstance(AddRecordActivity.this).sendBroadcast(intent);
+
                 WToast.show(R.string.Common_Add_Successful);
                 finish();
             }

@@ -16,7 +16,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import club.veev.babycount.base.BaseActivity;
-import club.veev.veevlibrary.bean.Category;
 import club.veev.veevlibrary.db.dao.CategoryDao;
 import club.veev.veevlibrary.utils.DisplayUtil;
 import club.veev.veevlibrary.utils.WString;
@@ -80,7 +79,7 @@ public class AddCategoryActivity extends BaseActivity {
 
                 mDao.insert(name, mDesc, unit);
                 WToast.show(R.string.Common_Add_Successful);
-                LocalBroadcastManager.getInstance(AddCategoryActivity.this).sendBroadcast(new Intent(Category.class.getName()));
+                LocalBroadcastManager.getInstance(AddCategoryActivity.this).sendBroadcast(new Intent(C.event.CATEGORY_CHANGED));
                 finish();
             }
         });

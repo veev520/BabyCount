@@ -1,7 +1,12 @@
 package club.veev.babycount;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +45,29 @@ public class RecordItemFragment extends BaseFragment {
     private RecordDao mRecordDao;
     private Category mCategory;
 
+    private LocalBroadcastManager mLocalBroadcastManager;
+    private BroadcastReceiver mBroadcastReceiver;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(getContext());
+
+        mBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                int id = intent.getIntExtra(C.key.RECORD_ID, -1);
+                if (mCategory != null && id == mCategory.getId()) {
+                    List<Record> recordList = mRecordDao.getRecordsByCategory(mCategory.getId());
+                    mRecyclerAdapter.setData(recordList);
+                }
+            }
+        };
+        mLocalBroadcastManager.registerReceiver(mBroadcastReceiver,
+                new IntentFilter(C.event.RECORD_CHANGED));
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -60,5 +88,12 @@ public class RecordItemFragment extends BaseFragment {
         mRecyclerAdapter.setData(recordList);
 
         return root;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mLocalBroadcastManager.unregisterReceiver(mBroadcastReceiver);
     }
 }
