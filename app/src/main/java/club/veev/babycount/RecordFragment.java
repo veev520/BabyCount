@@ -1,5 +1,9 @@
 package club.veev.babycount;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -15,6 +19,7 @@ import club.veev.babycount.base.BaseFragment;
 import club.veev.veevlibrary.bean.Category;
 import club.veev.veevlibrary.db.dao.CategoryDao;
 import club.veev.veevlibrary.db.dao.RecordDao;
+import club.veev.veevlibrary.utils.WLog;
 
 /**
  * 查看记录
@@ -27,6 +32,7 @@ public class RecordFragment extends BaseFragment {
     private RecordDao mRecordDao;
     private CategoryDao mCategoryDao;
     private LocalBroadcastManager mLocalBroadcastManager;
+    private BroadcastReceiver mBroadcastReceiver;
 
     public RecordFragment() {
         // Required empty public constructor
@@ -36,7 +42,18 @@ public class RecordFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mLocalBroadcastManager = LocalBroadcastManager.getInstance(getContext()) ;
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(getContext());
+
+        mBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                WLog.i(TAG, "onReceive: " + intent);
+                List<Category> categoryList = mCategoryDao.getAll();
+                mRecordPagerAdapter.setData(categoryList);
+            }
+        };
+        mLocalBroadcastManager.registerReceiver(mBroadcastReceiver,
+                new IntentFilter(Category.class.getName()));
     }
 
     @Override
@@ -65,8 +82,12 @@ public class RecordFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+    }
 
-        List<Category> categoryList = mCategoryDao.getAll();
-        mRecordPagerAdapter.setData(categoryList);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mLocalBroadcastManager.unregisterReceiver(mBroadcastReceiver);
     }
 }

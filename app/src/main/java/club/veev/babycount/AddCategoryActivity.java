@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -15,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import club.veev.babycount.base.BaseActivity;
+import club.veev.veevlibrary.bean.Category;
 import club.veev.veevlibrary.db.dao.CategoryDao;
 import club.veev.veevlibrary.utils.DisplayUtil;
 import club.veev.veevlibrary.utils.WString;
@@ -78,6 +80,7 @@ public class AddCategoryActivity extends BaseActivity {
 
                 mDao.insert(name, mDesc, unit);
                 WToast.show(R.string.Common_Add_Successful);
+                LocalBroadcastManager.getInstance(AddCategoryActivity.this).sendBroadcast(new Intent(Category.class.getName()));
                 finish();
             }
         });
