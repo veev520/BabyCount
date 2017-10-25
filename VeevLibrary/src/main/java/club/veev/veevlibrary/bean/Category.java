@@ -1,6 +1,6 @@
 package club.veev.veevlibrary.bean;
 
-import club.veev.veevlibrary.utils.TimeUtil;
+import club.veev.veevlibrary.utils.WTime;
 
 /**
  * Created by Veev on 2017/10/11
@@ -56,8 +56,8 @@ public class Category {
         sb.append(", name='").append(name).append('\'');
         sb.append(", desc='").append(desc).append('\'');
         sb.append(", unit='").append(unit).append('\'');
-        sb.append(", createdAt=").append(TimeUtil.getShowTime(createdAt));
-        sb.append(", updatedAt=").append(TimeUtil.getShowTime(updatedAt));
+        sb.append(", createdAt=").append(WTime.getShowTime(createdAt));
+        sb.append(", updatedAt=").append(WTime.getShowTime(updatedAt));
         sb.append('}');
         return sb.toString();
     }

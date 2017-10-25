@@ -13,7 +13,7 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/home_count_text_value"
+            android:id="@+id/record_item_text_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorTextPrimary"
@@ -23,59 +23,40 @@
             tools:text="100.00" />
 
         <TextView
-            android:id="@+id/home_count_text_unit"
+            android:id="@+id/record_item_text_unit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/home_count_text_value"
-            app:layout_constraintStart_toEndOf="@+id/home_count_text_value"
+            app:layout_constraintBottom_toBottomOf="@+id/record_item_text_value"
+            app:layout_constraintStart_toEndOf="@+id/record_item_text_value"
             tools:text="kg" />
 
         <TextView
-            android:id="@+id/home_count_text_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/home_count_text_value"
-            android:layout_marginBottom="8dp"
-            android:layout_toEndOf="@id/home_count_text_value"
-            android:background="@drawable/shape_count_category_text"
-            android:gravity="center"
-            android:paddingEnd="8dp"
-            android:paddingStart="8dp"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:textColor="@color/colorTextPrimaryLight"
-            app:layout_constraintBottom_toBottomOf="@+id/home_count_text_value"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/home_count_text_value"
-            tools:text="你好" />
-
-        <TextView
-            android:id="@+id/home_count_text_source"
+            android:id="@+id/record_item_text_source"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="@+id/home_count_text_value"
-            app:layout_constraintTop_toBottomOf="@+id/home_count_text_value"
+            app:layout_constraintStart_toStartOf="@+id/record_item_text_value"
+            app:layout_constraintTop_toBottomOf="@+id/record_item_text_value"
             tools:text="早早" />
 
         <TextView
-            android:id="@+id/home_count_text_date"
+            android:id="@+id/record_item_text_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="@+id/home_count_text_value"
-            app:layout_constraintTop_toBottomOf="@+id/home_count_text_source"
+            app:layout_constraintStart_toStartOf="@+id/record_item_text_value"
+            app:layout_constraintTop_toBottomOf="@+id/record_item_text_source"
             tools:text="2017-10-17 03:34" />
 
         <TextView
-            android:id="@+id/home_count_text_place"
+            android:id="@+id/record_item_text_place"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/home_count_text_date"
-            app:layout_constraintStart_toEndOf="@+id/home_count_text_date"
+            app:layout_constraintBottom_toBottomOf="@+id/record_item_text_date"
+            app:layout_constraintStart_toEndOf="@+id/record_item_text_date"
             tools:text="at 合家春天" />
     </android.support.constraint.ConstraintLayout>
 

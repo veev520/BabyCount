@@ -54,10 +54,17 @@ public class RecordDao {
             COLUMN_UPDATED          +   " real,"        +
             COLUMN_DESC             +   " text)";
 
+    public List<Record> getRecordsByCategory(int categoryId) {
+        return getAllRecord(COLUMN_CATEGORY_ID + " = ?", new String[]{categoryId + ""});
+    }
 
     public List<Record> getAll() {
+        return getAllRecord(null, null);
+    }
+
+    public List<Record> getAllRecord(String selection, String[] selectionArgs) {
         SQLiteDatabase db = CountDBOpenHelper.getDefault().getWritableDatabase();
-        Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, COLUMN_ID + " desc");
+        Cursor cursor = db.query(TABLE_NAME, null, selection, selectionArgs, null, null, COLUMN_ID + " desc");
         List<Record> list;
 
         if (cursor.moveToFirst()) {

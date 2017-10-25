@@ -1,6 +1,7 @@
 package club.veev.babycount;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -10,8 +11,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import club.veev.babycount.base.BaseActivity;
+import club.veev.veevlibrary.utils.WLog;
+import club.veev.veevlibrary.utils.WTime;
+import club.veev.veevlibrary.utils.WToast;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -20,6 +25,8 @@ public class MainActivity extends BaseActivity
     private FloatingActionButton mFab;
     private DrawerLayout mDrawer;
     private NavigationView mNavigation;
+    private View mNavHeader;
+    private TextView mTextAge;
 
     private FragmentHandle mFragmentHandle;
     // 保存fragment状态
@@ -34,6 +41,8 @@ public class MainActivity extends BaseActivity
         mFab = findViewById(R.id.main_fab);
         mDrawer = findViewById(R.id.drawer_layout);
         mNavigation = findViewById(R.id.nav_view);
+        mNavHeader = mNavigation.getHeaderView(0);
+        mTextAge = mNavHeader.findViewById(R.id.main_nav_text_age);
 
         setSupportActionBar(mToolbar);
 
@@ -54,6 +63,22 @@ public class MainActivity extends BaseActivity
 
         mFragmentHandle = FragmentHandle.get(this, R.id.main_frame_container);
         mFragmentHandle.showFragment(mPosition);
+
+        mTextAge.setText(WTime.getAge());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        mPosition = savedInstanceState.getInt("position");
+        mFragmentHandle.showFragment(mPosition);
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        //记录当前的position
+        outState.putInt("position", mPosition);
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 
     @Override
@@ -102,16 +127,18 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.main_nav_main) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+            mPosition = 0;
+            mFragmentHandle.showFragment(mPosition);
+        } else if (id == R.id.main_nav_category) {
+            mPosition = 1;
+            mFragmentHandle.showFragment(mPosition);
+        } else if (id == R.id.main_nav_count) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.main_nav_mine) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.main_nav_setts) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.main_nav_info) {
 
         }
 

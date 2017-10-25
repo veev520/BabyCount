@@ -34,7 +34,7 @@ import club.veev.veevlibrary.db.dao.PersonDao;
 import club.veev.veevlibrary.db.dao.PlaceDao;
 import club.veev.veevlibrary.db.dao.RecordDao;
 import club.veev.veevlibrary.utils.DisplayUtil;
-import club.veev.veevlibrary.utils.TimeUtil;
+import club.veev.veevlibrary.utils.WTime;
 import club.veev.veevlibrary.utils.WString;
 import club.veev.veevlibrary.utils.WToast;
 
@@ -229,8 +229,8 @@ public class AddRecordActivity extends BaseActivity {
         mCountCategoryRecyclerAdapter.setData(mCategoryDao.getAll());
         setCountUnit(mCountCategoryRecyclerAdapter.getCheckedCategory());
 
-        mTextDate.setText(TimeUtil.getFormatTime("MMM dd", mCalendarInit.getTime()));
-        mTextTime.setText(TimeUtil.getFormatTime("HH:mm", mCalendarInit.getTime()));
+        mTextDate.setText(WTime.getFormatTime("MMM dd", mCalendarInit.getTime()));
+        mTextTime.setText(WTime.getFormatTime("HH:mm", mCalendarInit.getTime()));
     }
 
     @Override
@@ -315,7 +315,7 @@ public class AddRecordActivity extends BaseActivity {
                 mCalendarInit.set(Calendar.YEAR, i);
                 mCalendarInit.set(Calendar.MONTH, i1);
                 mCalendarInit.set(Calendar.DAY_OF_MONTH, i2);
-                mTextDate.setText(TimeUtil.getFormatTime("MMM d", mCalendarInit.getTime()));
+                mTextDate.setText(WTime.getFormatTime("MMM d", mCalendarInit.getTime()));
             }
         }, mCalendarInit.get(Calendar.YEAR), mCalendarInit.get(Calendar.MONTH), mCalendarInit.get(Calendar.DAY_OF_MONTH));
         dialog.show();
@@ -327,7 +327,7 @@ public class AddRecordActivity extends BaseActivity {
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
                 mCalendarInit.set(Calendar.HOUR_OF_DAY, i);
                 mCalendarInit.set(Calendar.MINUTE, i1);
-                mTextTime.setText(TimeUtil.getFormatTime("HH:mm", mCalendarInit.getTime()));
+                mTextTime.setText(WTime.getFormatTime("HH:mm", mCalendarInit.getTime()));
             }
         }, mCalendarInit.get(Calendar.HOUR_OF_DAY), mCalendarInit.get(Calendar.MINUTE), true);
         dialog.show();

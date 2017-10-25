@@ -1,20 +1,19 @@
 package club.veev.babycount;
 
-
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import club.veev.babycount.base.BaseFragment;
 import club.veev.veevlibrary.db.dao.RecordDao;
 
 /**
  * 首页
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
 
@@ -39,7 +38,7 @@ public class HomeFragment extends Fragment {
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                outRect.set(0, 15, 0, 15);
+                outRect.set(0, 5, 0, 5);
             }
         });
         mRecyclerView.setAdapter(mHomeCountRecyclerAdapter);

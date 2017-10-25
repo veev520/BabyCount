@@ -1,6 +1,7 @@
 package club.veev.veevlibrary.utils;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -9,7 +10,7 @@ import java.util.Locale;
  * Tel:         18365264930
  * QQ:          2355738466
  * Email:       wei.wang@wuliangroup.com
- * Function:    TimeUtil
+ * Function:    WTime
  *
  * <pre>
  *                                             HH:mm    15:44
@@ -35,7 +36,7 @@ import java.util.Locale;
  *                        yyyy-MM-dd'T'HH:mm:ss.SSSZ    2016-08-12T15:44:40.461+0800
  * EEEE 'DATE('yyyy-MM-dd')' 'TIME('HH:mm:ss')' zzzz    星期五 DATE(2016-08-12) TIME(15:44:40) 中国标准时间
  */
-public class TimeUtil {
+public class WTime {
 
     public static String getFormatTime(String format) {
         long time = System.currentTimeMillis();
@@ -59,5 +60,15 @@ public class TimeUtil {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         Date date = new Date(time);
         return dateFormat.format(date);
+    }
+
+    public static String getAge() {
+        Calendar birth = Calendar.getInstance();
+        birth.set(Calendar.YEAR, 2017);
+        birth.set(Calendar.MONTH, 8);
+        birth.set(Calendar.DAY_OF_MONTH, 29);
+        Calendar now = Calendar.getInstance();
+        int deltaDay = now.get(Calendar.DAY_OF_YEAR) - birth.get(Calendar.DAY_OF_YEAR);
+        return deltaDay + "天";
     }
 }

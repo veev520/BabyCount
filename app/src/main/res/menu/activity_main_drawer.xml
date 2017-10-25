@@ -7,31 +7,31 @@
         <item
             android:id="@+id/main_nav_main"
             android:icon="@drawable/ic_home_black_24dp"
-            android:title="Home" />
+            android:title="@string/Menu_Home" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Category" />
+            android:id="@+id/main_nav_category"
+            android:icon="@drawable/ic_dashboard_black_24dp"
+            android:title="@string/Menu_Category" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/main_nav_count"
             android:icon="@drawable/ic_show_chart_black_24dp"
-            android:title="Slideshow" />
+            android:title="@string/Menu_Count" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/main_nav_mine"
+            android:icon="@drawable/ic_person_grey_24dp"
+            android:title="@string/Menu_Mine" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/Menu_Info">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/main_nav_setts"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="@string/Menu_Setts" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/main_nav_info"
+                android:icon="@drawable/ic_info_black_24dp"
+                android:title="@string/Menu_Info" />
         </menu>
     </item>
 

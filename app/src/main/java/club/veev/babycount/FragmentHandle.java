@@ -17,8 +17,8 @@ import java.util.ArrayList;
 public class FragmentHandle {
 
     private @IdRes int containerId;
-    private FragmentManager fm;
-    private ArrayList<Fragment> fragments;
+    private FragmentManager mFragmentManager;
+    private ArrayList<Fragment> mFragments;
 
     private FragmentHandle handle;
 
@@ -32,17 +32,18 @@ public class FragmentHandle {
 
     private FragmentHandle(FragmentActivity activity, @IdRes int containerId) {
         this.containerId = containerId;
-        fm = activity.getSupportFragmentManager();
+        mFragmentManager = activity.getSupportFragmentManager();
         initFragment();
     }
 
     private void initFragment() {
-        fragments = new ArrayList<>();
+        mFragments = new ArrayList<>();
 
-        fragments.add(0, new HomeFragment());
+        mFragments.add(0, new HomeFragment());
+        mFragments.add(1, new RecordFragment());
 
-        FragmentTransaction ft = fm.beginTransaction();
-        for(Fragment fragment : fragments) {
+        FragmentTransaction ft = mFragmentManager.beginTransaction();
+        for(Fragment fragment : mFragments) {
             ft.add(containerId, fragment);
         }
         ft.commitAllowingStateLoss();
@@ -50,15 +51,15 @@ public class FragmentHandle {
 
     public void showFragment(int position) {
         hideFragments();
-        Fragment fragment = fragments.get(position);
-        FragmentTransaction ft = fm.beginTransaction();
+        Fragment fragment = mFragments.get(position);
+        FragmentTransaction ft = mFragmentManager.beginTransaction();
         ft.show(fragment);
         ft.commitAllowingStateLoss();
     }
 
     public void hideFragments() {
-        FragmentTransaction ft = fm.beginTransaction();
-        for(Fragment fragment : fragments) {
+        FragmentTransaction ft = mFragmentManager.beginTransaction();
+        for(Fragment fragment : mFragments) {
             if(fragment != null) {
                 ft.hide(fragment);
             }
@@ -67,6 +68,6 @@ public class FragmentHandle {
     }
 
     public Fragment getFragment(int position) {
-        return fragments.get(position);
+        return mFragments.get(position);
     }
 }

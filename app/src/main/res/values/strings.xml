@@ -35,5 +35,15 @@
     <string name="Common_Use_Immediately">立即使用</string>
     <string name="Record_Add">+</string>
     <string name="Record_Value">数据</string>
+    <string name="Menu_Home">首页</string>
+    <string name="Menu_Count">统计</string>
+    <string name="Menu_Category">查看</string>
+    <string name="Menu_Setts">设置</string>
+    <string name="Menu_Info">关于</string>
+    <string name="Menu_Mine">我的</string>
+    <string name="Common_Age">年龄：</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
