@@ -18,6 +18,7 @@
     <string name="Place_Already_Exists">该地点已存在</string>
 
     <string name="Common_Add_Successful">添加成功</string>
+    <string name="Category_Category">分类</string>
     <string name="Category_Name">名称</string>
     <string name="Category_Desc">描述</string>
     <string name="Category_Place">地点</string>
@@ -25,7 +26,9 @@
     <string name="Category_Target">Target</string>
     <string name="Category_Unit">单位</string>
     <string name="Place_Location">位置</string>
+    <string name="Place_Place">地点</string>
     <string name="Person_Avatar">头像</string>
+    <string name="Person_Person">人物</string>
     <string name="Place_Select_None">暂不选择</string>
     <string name="CATEGORY_IS_EMPTY">还未添加种类</string>
     <string name="Common_Not_Null">不可为空</string>
@@ -42,8 +45,7 @@
     <string name="Menu_Info">关于</string>
     <string name="Menu_Mine">我的</string>
     <string name="Common_Age">年龄：</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Common_Edit">编辑</string>
+    <string name="Common_Watch">查看</string>
 
 </resources>

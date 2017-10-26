@@ -40,7 +40,7 @@ public class FragmentHandle {
         mFragments = new ArrayList<>();
 
         mFragments.add(0, new HomeFragment());
-        mFragments.add(1, new RecordFragment());
+        mFragments.add(1, new DashBoardFragment());
 
         FragmentTransaction ft = mFragmentManager.beginTransaction();
         for(Fragment fragment : mFragments) {
