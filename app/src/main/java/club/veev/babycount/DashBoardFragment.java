@@ -1,8 +1,12 @@
 package club.veev.babycount;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +23,50 @@ import club.veev.babycount.base.BaseFragment;
  */
 public class DashBoardFragment extends BaseFragment {
 
-    private TextView mTextDescCategory, mTextDescPlace, mTextDescPerson;
+    private TextView mTextDescCate, mTextDescPlace, mTextDescPerson,
+            mTextWatchCate, mTextWatchPlace, mTextWatchPerson;
+
+    private LocalBroadcastManager mLocalBroadcastManager;
+    private BroadcastReceiver mBroadcastReceiver;
 
     public DashBoardFragment() {
 
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(getContext());
+        mBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+                if (action == null) {
+                    return;
+                }
+                switch (action) {
+                    case C.event.CATEGORY_CHANGED:
+                        updateCategory();
+                        break;
+                    case C.event.PERSON_CHANGED:
+                        updatePerson();
+                        break;
+                    case C.event.PLACE_CHANGED:
+                        updatePlace();
+                        break;
+                    case C.event.RECORD_CHANGED:
+                        break;
+                }
+            }
+        };
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(C.event.CATEGORY_CHANGED);
+        filter.addAction(C.event.PLACE_CHANGED);
+        filter.addAction(C.event.PERSON_CHANGED);
+        filter.addAction(C.event.RECORD_CHANGED);
+
+        mLocalBroadcastManager.registerReceiver(mBroadcastReceiver, filter);
     }
 
     @Nullable
@@ -31,10 +75,37 @@ public class DashBoardFragment extends BaseFragment {
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_dash_board, container, false);
 
-        mTextDescCategory = root.findViewById(R.id.dash_board_category_text_desc);
+        mTextDescCate = root.findViewById(R.id.dash_board_category_text_desc);
         mTextDescPlace = root.findViewById(R.id.dash_board_place_text_desc);
         mTextDescPerson = root.findViewById(R.id.dash_board_people_text_desc);
+        mTextWatchCate = root.findViewById(R.id.dash_board_category_text_watch);
+        mTextWatchPlace = root.findViewById(R.id.dash_board_place_text_watch);
+        mTextWatchPerson = root.findViewById(R.id.dash_board_people_text_watch);
 
+        mTextWatchCate.setOnClickListener(view -> WatchCategoryActivity.start(getContext()));
+
+        updateCategory();
+        updatePlace();
+        updatePerson();
         return root;
+    }
+
+    private void updateCategory() {
+        mTextDescCate.setText(String.format(getString(R.string.Category_Count_F), "" + App.getApp().getDaoSession().getCategoryDao().count()));
+    }
+
+    private void updatePlace() {
+        mTextDescPlace.setText(String.format(getString(R.string.Place_Count_F), "" + App.getApp().getDaoSession().getPlaceDao().count()));
+    }
+
+    private void updatePerson() {
+        mTextDescPerson.setText(String.format(getString(R.string.Person_Count_F), "" + App.getApp().getDaoSession().getPersonDao().count()));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mLocalBroadcastManager.unregisterReceiver(mBroadcastReceiver);
     }
 }

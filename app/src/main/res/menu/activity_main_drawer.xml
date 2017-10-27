@@ -9,9 +9,9 @@
             android:icon="@drawable/ic_home_black_24dp"
             android:title="@string/Menu_Home" />
         <item
-            android:id="@+id/main_nav_category"
+            android:id="@+id/main_nav_dashboard"
             android:icon="@drawable/ic_dashboard_black_24dp"
-            android:title="@string/Menu_Category" />
+            android:title="@string/Menu_DashBoard" />
         <item
             android:id="@+id/main_nav_count"
             android:icon="@drawable/ic_show_chart_black_24dp"

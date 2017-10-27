@@ -79,6 +79,14 @@ public class PersonDao {
         return db.insert(TABLE_NAME, null, values);
     }
 
+    public int count() {
+        SQLiteDatabase db = CountDBOpenHelper.getDefault().getWritableDatabase();
+        Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
     public Person getPerson(int id) {
         SQLiteDatabase db = CountDBOpenHelper.getDefault().getWritableDatabase();
         Cursor cursor = db.query(TABLE_NAME, null, COLUMN_ID + " = ?", new String[]{"" + id}, null, null, null);

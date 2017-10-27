@@ -13,6 +13,7 @@
     <string name="title_activity_select_target">选择Target</string>
     <string name="title_activity_add_place">添加地点</string>
     <string name="title_activity_select_place">选择地点</string>
+    <string name="title_activity_watch_category">查看分类</string>
 
     <string name="Category_Already_Exists">该分类已存在</string>
     <string name="Place_Already_Exists">该地点已存在</string>
@@ -25,6 +26,10 @@
     <string name="Category_Source">Source</string>
     <string name="Category_Target">Target</string>
     <string name="Category_Unit">单位</string>
+    <string name="Category_Count_F">%1$s个分类</string>
+    <string name="Place_Count_F">%1$s个地点</string>
+    <string name="Person_Count_F">%1$s个人物</string>
+    <string name="Record_Count_F">%1$s条记录</string>
     <string name="Place_Location">位置</string>
     <string name="Place_Place">地点</string>
     <string name="Person_Avatar">头像</string>
@@ -41,11 +46,13 @@
     <string name="Menu_Home">首页</string>
     <string name="Menu_Count">统计</string>
     <string name="Menu_Category">查看</string>
+    <string name="Menu_DashBoard">面板</string>
     <string name="Menu_Setts">设置</string>
     <string name="Menu_Info">关于</string>
     <string name="Menu_Mine">我的</string>
     <string name="Common_Age">年龄：</string>
     <string name="Common_Edit">编辑</string>
     <string name="Common_Watch">查看</string>
+    <string name="Common_No_Desc">没有描述</string>
 
 </resources>

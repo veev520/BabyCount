@@ -80,6 +80,14 @@ public class PlaceDao {
         return db.insert(TABLE_NAME, null, values);
     }
 
+    public int count() {
+        SQLiteDatabase db = CountDBOpenHelper.getDefault().getWritableDatabase();
+        Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
     /**
      * 是否有这个名称的地点
      * @param name      分类名

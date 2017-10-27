@@ -14,9 +14,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import club.veev.babycount.base.BaseActivity;
-import club.veev.veevlibrary.utils.WLog;
 import club.veev.veevlibrary.utils.WTime;
-import club.veev.veevlibrary.utils.WToast;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -61,7 +59,7 @@ public class MainActivity extends BaseActivity
         mFragmentHandle = FragmentHandle.get(this, R.id.main_frame_container);
         mFragmentHandle.showFragment(mPosition);
 
-        mTextAge.setText(WTime.getAge());
+        mTextAge.setText(WTime.getAge(2017, 8, 29));
     }
 
     @Override
@@ -126,7 +124,7 @@ public class MainActivity extends BaseActivity
         if (id == R.id.main_nav_main) {
             mPosition = 0;
             mFragmentHandle.showFragment(mPosition);
-        } else if (id == R.id.main_nav_category) {
+        } else if (id == R.id.main_nav_dashboard) {
             mPosition = 1;
             mFragmentHandle.showFragment(mPosition);
         } else if (id == R.id.main_nav_count) {

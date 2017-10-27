@@ -47,7 +47,11 @@
         <activity
             android:name=".SelectPlaceActivity"
             android:label="@string/title_activity_select_place"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".WatchCategoryActivity"
+            android:label="@string/title_activity_watch_category"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

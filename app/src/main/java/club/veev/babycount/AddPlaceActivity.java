@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
@@ -81,6 +82,9 @@ public class AddPlaceActivity extends BaseActivity {
             }
 
             int id = (int) App.getApp().getDaoSession().getPlaceDao().insert(name, mDesc, place);
+            Intent placeAdd = new Intent(C.event.PLACE_CHANGED);
+            placeAdd.putExtra(C.key.PLACE_ID, id);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(placeAdd);
 
             if (mSwitchUseImm.isChecked()) {
                 Intent intent = new Intent();

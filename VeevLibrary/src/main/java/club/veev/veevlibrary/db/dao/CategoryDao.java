@@ -91,6 +91,7 @@ public class CategoryDao {
         cursor.close();
         return count;
     }
+
     public int getLastId() {
         SQLiteDatabase db = CountDBOpenHelper.getDefault().getWritableDatabase();
         Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, COLUMN_ID + " desc");

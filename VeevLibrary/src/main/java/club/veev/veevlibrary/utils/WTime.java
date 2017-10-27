@@ -62,13 +62,35 @@ public class WTime {
         return dateFormat.format(date);
     }
 
-    public static String getAge() {
+    public static String getAge(int y, int m, int d) {
         Calendar birth = Calendar.getInstance();
-        birth.set(Calendar.YEAR, 2017);
-        birth.set(Calendar.MONTH, 8);
-        birth.set(Calendar.DAY_OF_MONTH, 29);
+        birth.set(Calendar.YEAR, y);
+        birth.set(Calendar.MONTH, m);
+        birth.set(Calendar.DAY_OF_MONTH, d);
         Calendar now = Calendar.getInstance();
         int deltaDay = now.get(Calendar.DAY_OF_YEAR) - birth.get(Calendar.DAY_OF_YEAR);
+
+        int year = deltaDay / 365;
+        int month = deltaDay % 365 / 30;
+
+        if (year >= 2) {
+            if (month >= 6 && year <= 10) {
+                return WString.convertInt2Ch(year) + "岁半";
+            }
+            return WString.convertInt2Ch(year) + "岁";
+        }
+
+        if (year >= 1) {
+            if (month > 0) {
+                return "一岁零" + WString.convertInt2Ch(month) + "个月";
+            } else {
+                return "一岁";
+            }
+        }
+
+        if (month > 2)  {
+            return WString.convertInt2Ch(month) + "个月";
+        }
         return deltaDay + "天";
     }
 }
