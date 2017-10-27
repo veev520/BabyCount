@@ -14,6 +14,7 @@
     <string name="title_activity_add_place">添加地点</string>
     <string name="title_activity_select_place">选择地点</string>
     <string name="title_activity_watch_category">查看分类</string>
+    <string name="title_activity_edit_category">编辑分类</string>
 
     <string name="Category_Already_Exists">该分类已存在</string>
     <string name="Place_Already_Exists">该地点已存在</string>

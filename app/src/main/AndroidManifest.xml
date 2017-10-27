@@ -51,6 +51,10 @@
         <activity
             android:name=".WatchCategoryActivity"
             android:label="@string/title_activity_watch_category"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".EditCategoryActivity"
+            android:label="@string/title_activity_edit_category"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -24,7 +24,8 @@ import club.veev.babycount.base.BaseFragment;
 public class DashBoardFragment extends BaseFragment {
 
     private TextView mTextDescCate, mTextDescPlace, mTextDescPerson,
-            mTextWatchCate, mTextWatchPlace, mTextWatchPerson;
+            mTextWatchCate, mTextWatchPlace, mTextWatchPerson,
+            mTextEditCate, mTextEditPlace, mTextEditPerson;
 
     private LocalBroadcastManager mLocalBroadcastManager;
     private BroadcastReceiver mBroadcastReceiver;
@@ -81,8 +82,12 @@ public class DashBoardFragment extends BaseFragment {
         mTextWatchCate = root.findViewById(R.id.dash_board_category_text_watch);
         mTextWatchPlace = root.findViewById(R.id.dash_board_place_text_watch);
         mTextWatchPerson = root.findViewById(R.id.dash_board_people_text_watch);
+        mTextEditCate = root.findViewById(R.id.dash_board_category_text_edit);
+        mTextEditPlace = root.findViewById(R.id.dash_board_place_text_edit);
+        mTextEditPerson = root.findViewById(R.id.dash_board_people_text_edit);
 
         mTextWatchCate.setOnClickListener(view -> WatchCategoryActivity.start(getContext()));
+        mTextEditCate.setOnClickListener(view -> EditCategoryActivity.start(getContext()));
 
         updateCategory();
         updatePlace();
