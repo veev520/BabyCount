@@ -17,8 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import club.veev.babycount.base.BaseActivity;
-import club.veev.veevlibrary.bean.Place;
-import club.veev.veevlibrary.db.dao.PlaceDao;
 import club.veev.veevlibrary.utils.DisplayUtil;
 import club.veev.veevlibrary.utils.WString;
 
@@ -62,58 +60,39 @@ public class AddPlaceActivity extends BaseActivity {
 
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddPlaceActivity.this.finish();
+        mToolbar.setNavigationOnClickListener(view -> AddPlaceActivity.this.finish());
+
+        mFab.setOnClickListener(view -> {
+            String name = mEditName.getText().toString().trim();
+            if (WString.isEmpty(name)) {
+                mEditName.setError(getResources().getString(R.string.Common_Not_Null));
+                return;
             }
+
+            if (App.getApp().getDaoSession().getPlaceDao().hasName(name)) {
+                mEditName.setError(getResources().getString(R.string.Place_Already_Exists));
+                return;
+            }
+
+            String place = mEditPlace.getText().toString().trim();
+            if (WString.isEmpty(place)) {
+                mEditPlace.setError(getResources().getString(R.string.Common_Not_Null));
+                return;
+            }
+
+            int id = (int) App.getApp().getDaoSession().getPlaceDao().insert(name, mDesc, place);
+
+            if (mSwitchUseImm.isChecked()) {
+                Intent intent = new Intent();
+                intent.putExtra(ADD_PLACE_RESPONSE_ID, id);
+                setResult(ADD_PLACE_SUCCESS, intent);
+            }
+            finish();
         });
 
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String name = mEditName.getText().toString().trim();
-                if (WString.isEmpty(name)) {
-                    mEditName.setError(getResources().getString(R.string.Common_Not_Null));
-                    return;
-                }
+        mRelativeUseImm.setOnClickListener(view -> mSwitchUseImm.toggle());
 
-                PlaceDao dao = new PlaceDao();
-                if (dao.hasName(name)) {
-                    mEditName.setError(getResources().getString(R.string.Place_Already_Exists));
-                    return;
-                }
-
-                String place = mEditPlace.getText().toString().trim();
-                if (WString.isEmpty(place)) {
-                    mEditPlace.setError(getResources().getString(R.string.Common_Not_Null));
-                    return;
-                }
-
-                int id = (int) dao.insert(name, mDesc, place);
-
-                if (mSwitchUseImm.isChecked()) {
-                    Intent intent = new Intent();
-                    intent.putExtra(ADD_PLACE_RESPONSE_ID, id);
-                    setResult(ADD_PLACE_SUCCESS, intent);
-                }
-                finish();
-            }
-        });
-
-        mRelativeUseImm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mSwitchUseImm.toggle();
-            }
-        });
-
-        mRelativeDesc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDialogEditDesc();
-            }
-        });
+        mRelativeDesc.setOnClickListener(view -> showDialogEditDesc());
     }
 
     private void showDialogEditDesc() {
@@ -129,19 +108,11 @@ public class AddPlaceActivity extends BaseActivity {
 
         builder.setTitle(R.string.Category_Desc)
                 .setView(editText)
-                .setPositiveButton(R.string.Common_Sure, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        mDesc = editText.getText().toString().trim();
-                        updateDesc();
-                    }
+                .setPositiveButton(R.string.Common_Sure, (dialogInterface, i) -> {
+                    mDesc = editText.getText().toString().trim();
+                    updateDesc();
                 })
-                .setNegativeButton(R.string.Common_Cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                })
+                .setNegativeButton(R.string.Common_Cancel, (dialogInterface, i) -> dialogInterface.dismiss())
                 .show();
     }
 

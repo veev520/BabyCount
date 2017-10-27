@@ -100,54 +100,41 @@ public class AddRecordActivity extends BaseActivity {
 
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddRecordActivity.this.finish();
-            }
-        });
+        mToolbar.setNavigationOnClickListener(view -> AddRecordActivity.this.finish());
 
         mCalendarInit = Calendar.getInstance();
-        mPlaceDao = new PlaceDao();
-        mPersonDao = new PersonDao();
-        mCategoryDao = new CategoryDao();
+        mPlaceDao = App.getApp().getDaoSession().getPlaceDao();
+        mPersonDao = App.getApp().getDaoSession().getPersonDao();
+        mCategoryDao = App.getApp().getDaoSession().getCategoryDao();
 
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                float value;
-                if (mCategoryDao.getLastId() == -1) {
-                    Snackbar.make(view, R.string.CATEGORY_IS_EMPTY, Snackbar.LENGTH_LONG)
-                            .setAction(R.string.Common_Go_To_Add, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    AddCategoryActivity.start(AddRecordActivity.this);
-                                }
-                            }).show();
-                    return;
-                }
-                try {
-                    value = Float.valueOf(mEditValue.getText().toString().trim());
-                } catch (NumberFormatException e) {
-                    mEditValue.setError(getResources().getString(R.string.Common_Not_Null));
-                    return;
-                }
-                new RecordDao().insert(mCountCategoryRecyclerAdapter.getCheckedCategory(),
-                        "title",
-                        mDesc,
-                        value,
-                        mPlaceId,
-                        mTargetId,
-                        mSourceId,
-                        mCalendarInit.getTimeInMillis());
-
-                Intent intent = new Intent(C.event.RECORD_CHANGED);
-                intent.putExtra(C.key.RECORD_ID, mCountCategoryRecyclerAdapter.getCheckedCategory().getId());
-                LocalBroadcastManager.getInstance(AddRecordActivity.this).sendBroadcast(intent);
-
-                WToast.show(R.string.Common_Add_Successful);
-                finish();
+        mFab.setOnClickListener(view -> {
+            float value;
+            if (mCategoryDao.getLastId() == -1) {
+                Snackbar.make(view, R.string.CATEGORY_IS_EMPTY, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.Common_Go_To_Add, view1 -> AddCategoryActivity.start(AddRecordActivity.this)).show();
+                return;
             }
+            try {
+                value = Float.valueOf(mEditValue.getText().toString().trim());
+            } catch (NumberFormatException e) {
+                mEditValue.setError(getResources().getString(R.string.Common_Not_Null));
+                return;
+            }
+            new RecordDao().insert(mCountCategoryRecyclerAdapter.getCheckedCategory(),
+                    "title",
+                    mDesc,
+                    value,
+                    mPlaceId,
+                    mTargetId,
+                    mSourceId,
+                    mCalendarInit.getTimeInMillis());
+
+            Intent intent = new Intent(C.event.RECORD_CHANGED);
+            intent.putExtra(C.key.RECORD_ID, mCountCategoryRecyclerAdapter.getCheckedCategory().getId());
+            LocalBroadcastManager.getInstance(AddRecordActivity.this).sendBroadcast(intent);
+
+            WToast.show(R.string.Common_Add_Successful);
+            finish();
         });
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -161,12 +148,7 @@ public class AddRecordActivity extends BaseActivity {
             }
         });
 
-        mCountCategoryRecyclerAdapter.addOnCategoryCheckedListener(new CountCategoryRecyclerAdapter.OnCategoryCheckedListener() {
-            @Override
-            public void onCategoryChecked(Category category) {
-                setCountUnit(category);
-            }
-        });
+        mCountCategoryRecyclerAdapter.addOnCategoryCheckedListener(this::setCountUnit);
 
         mEditValue.addTextChangedListener(new TextWatcher() {
             @Override
@@ -185,47 +167,17 @@ public class AddRecordActivity extends BaseActivity {
             }
         });
 
-        mLinearDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDatePicker();
-            }
-        });
+        mLinearDate.setOnClickListener(view -> showDatePicker());
 
-        mLinearTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showTimePicker();
-            }
-        });
+        mLinearTime.setOnClickListener(view -> showTimePicker());
 
-        mRelativeSource.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SelectSourceActivity.startForResult(AddRecordActivity.this, SELECT_PERSON_SOURCE);
-            }
-        });
+        mRelativeSource.setOnClickListener(view -> SelectSourceActivity.startForResult(AddRecordActivity.this, SELECT_PERSON_SOURCE));
 
-        mRelativeTarget.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SelectTargetActivity.startForResult(AddRecordActivity.this, SELECT_PERSON_TARGET);
-            }
-        });
+        mRelativeTarget.setOnClickListener(view -> SelectTargetActivity.startForResult(AddRecordActivity.this, SELECT_PERSON_TARGET));
 
-        mRelativeDesc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDialogEditDesc();
-            }
-        });
+        mRelativeDesc.setOnClickListener(view -> showDialogEditDesc());
 
-        mRelativePlace.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SelectPlaceActivity.startForResult(AddRecordActivity.this, SELECT_PLACE);
-            }
-        });
+        mRelativePlace.setOnClickListener(view -> SelectPlaceActivity.startForResult(AddRecordActivity.this, SELECT_PLACE));
     }
 
     @Override
@@ -290,19 +242,11 @@ public class AddRecordActivity extends BaseActivity {
 
         builder.setTitle(R.string.Category_Desc)
                 .setView(editText)
-                .setPositiveButton(R.string.Common_Sure, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        mDesc = editText.getText().toString().trim();
-                        updateDesc();
-                    }
+                .setPositiveButton(R.string.Common_Sure, (dialogInterface, i) -> {
+                    mDesc = editText.getText().toString().trim();
+                    updateDesc();
                 })
-                .setNegativeButton(R.string.Common_Cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                })
+                .setNegativeButton(R.string.Common_Cancel, (dialogInterface, i) -> dialogInterface.dismiss())
                 .show();
     }
 
@@ -315,26 +259,20 @@ public class AddRecordActivity extends BaseActivity {
     }
 
     private void showDatePicker() {
-        DatePickerDialog dialog = new DatePickerDialog(AddRecordActivity.this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                mCalendarInit.set(Calendar.YEAR, i);
-                mCalendarInit.set(Calendar.MONTH, i1);
-                mCalendarInit.set(Calendar.DAY_OF_MONTH, i2);
-                mTextDate.setText(WTime.getFormatTime("MMM d", mCalendarInit.getTime()));
-            }
+        DatePickerDialog dialog = new DatePickerDialog(AddRecordActivity.this, (datePicker, i, i1, i2) -> {
+            mCalendarInit.set(Calendar.YEAR, i);
+            mCalendarInit.set(Calendar.MONTH, i1);
+            mCalendarInit.set(Calendar.DAY_OF_MONTH, i2);
+            mTextDate.setText(WTime.getFormatTime("MMM d", mCalendarInit.getTime()));
         }, mCalendarInit.get(Calendar.YEAR), mCalendarInit.get(Calendar.MONTH), mCalendarInit.get(Calendar.DAY_OF_MONTH));
         dialog.show();
     }
 
     private void showTimePicker() {
-        TimePickerDialog dialog = new TimePickerDialog(AddRecordActivity.this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                mCalendarInit.set(Calendar.HOUR_OF_DAY, i);
-                mCalendarInit.set(Calendar.MINUTE, i1);
-                mTextTime.setText(WTime.getFormatTime("HH:mm", mCalendarInit.getTime()));
-            }
+        TimePickerDialog dialog = new TimePickerDialog(AddRecordActivity.this, (timePicker, i, i1) -> {
+            mCalendarInit.set(Calendar.HOUR_OF_DAY, i);
+            mCalendarInit.set(Calendar.MINUTE, i1);
+            mTextTime.setText(WTime.getFormatTime("HH:mm", mCalendarInit.getTime()));
         }, mCalendarInit.get(Calendar.HOUR_OF_DAY), mCalendarInit.get(Calendar.MINUTE), true);
         dialog.show();
     }

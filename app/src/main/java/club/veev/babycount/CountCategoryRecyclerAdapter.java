@@ -80,27 +80,21 @@ public class CountCategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerV
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == TYPE_CATEGORY) {
             final Category category = mList.get(position - 1);
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mChooseId = category.getId();
-                    if (!mCategoryCheckedListener.isEmpty()) {
-                        for (OnCategoryCheckedListener listener : mCategoryCheckedListener) {
-                            listener.onCategoryChecked(category);
-                        }
+            holder.itemView.setOnClickListener(view -> {
+                mChooseId = category.getId();
+                if (!mCategoryCheckedListener.isEmpty()) {
+                    for (OnCategoryCheckedListener listener : mCategoryCheckedListener) {
+                        listener.onCategoryChecked(category);
                     }
-                    notifyDataSetChanged();
                 }
+                notifyDataSetChanged();
             });
 
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    if (!TextUtils.isEmpty(category.getDesc())) {
-                        WToast.show(category.getDesc());
-                    }
-                    return false;
+            holder.itemView.setOnLongClickListener(view -> {
+                if (!TextUtils.isEmpty(category.getDesc())) {
+                    WToast.show(category.getDesc());
                 }
+                return false;
             });
 
             ((CategoryHolder) holder).mTextName.setText(category.getName());
@@ -112,12 +106,7 @@ public class CountCategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerV
         }
 
         if (getItemViewType(position) == TYPE_ADD) {
-            ((AddHolder) holder).mTextName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    AddCategoryActivity.start(view.getContext());
-                }
-            });
+            ((AddHolder) holder).mTextName.setOnClickListener(view -> AddCategoryActivity.start(view.getContext()));
         }
     }
 

@@ -27,7 +27,6 @@ public class SelectPlaceActivity extends BaseActivity {
     private RecyclerView mRecyclerView;
 
     private PlaceSelectorRecyclerAdapter mRecyclerAdapter;
-    private PlaceDao mPlaceDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,21 +39,10 @@ public class SelectPlaceActivity extends BaseActivity {
 
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        mToolbar.setNavigationOnClickListener(view -> finish());
 
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddPlaceActivity.startForResult(SelectPlaceActivity.this, ADD_PLACE);
-            }
-        });
+        mFab.setOnClickListener(view -> AddPlaceActivity.startForResult(SelectPlaceActivity.this, ADD_PLACE));
 
-        mPlaceDao = new PlaceDao();
         mRecyclerAdapter = new PlaceSelectorRecyclerAdapter();
         mRecyclerAdapter.addOnPlaceSelectedListener(new PlaceSelectorRecyclerAdapter.OnPlaceSelectedListener() {
             @Override
@@ -68,13 +56,13 @@ public class SelectPlaceActivity extends BaseActivity {
             }
         });
         mRecyclerView.setAdapter(mRecyclerAdapter);
-        mRecyclerAdapter.setData(mPlaceDao.getAll());
+        mRecyclerAdapter.setData(App.getApp().getDaoSession().getPlaceDao().getAll());
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ADD_PLACE) {
-            mRecyclerAdapter.setData(mPlaceDao.getAll());
+            mRecyclerAdapter.setData(App.getApp().getDaoSession().getPlaceDao().getAll());
             if (resultCode == AddPlaceActivity.ADD_PLACE_SUCCESS) {
                 finishWithIntent(data);
             }

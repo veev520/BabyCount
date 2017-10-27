@@ -29,8 +29,6 @@ public class RecordFragment extends BaseFragment {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private RecordPagerAdapter mRecordPagerAdapter;
-    private RecordDao mRecordDao;
-    private CategoryDao mCategoryDao;
     private LocalBroadcastManager mLocalBroadcastManager;
     private BroadcastReceiver mBroadcastReceiver;
 
@@ -48,7 +46,7 @@ public class RecordFragment extends BaseFragment {
             @Override
             public void onReceive(Context context, Intent intent) {
                 WLog.i(TAG, "onReceive: " + intent);
-                List<Category> categoryList = mCategoryDao.getAll();
+                List<Category> categoryList = App.getApp().getDaoSession().getCategoryDao().getAll();
                 mRecordPagerAdapter.setData(categoryList);
             }
         };
@@ -65,10 +63,7 @@ public class RecordFragment extends BaseFragment {
         mTabLayout = root.findViewById(R.id.record_tab);
         mViewPager = root.findViewById(R.id.record_pager);
 
-        mRecordDao = new RecordDao();
-        mCategoryDao = new CategoryDao();
-
-        List<Category> categoryList = mCategoryDao.getAll();
+        List<Category> categoryList = App.getApp().getDaoSession().getCategoryDao().getAll();
 
         mRecordPagerAdapter = new RecordPagerAdapter(getFragmentManager(), categoryList);
         mViewPager.setAdapter(mRecordPagerAdapter);

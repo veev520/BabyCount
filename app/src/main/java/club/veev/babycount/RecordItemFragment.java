@@ -17,8 +17,6 @@ import java.util.List;
 import club.veev.babycount.base.BaseFragment;
 import club.veev.veevlibrary.bean.Category;
 import club.veev.veevlibrary.bean.Record;
-import club.veev.veevlibrary.db.dao.CategoryDao;
-import club.veev.veevlibrary.db.dao.RecordDao;
 
 /**
  * Created by Veev on 2017/10/25
@@ -41,8 +39,6 @@ public class RecordItemFragment extends BaseFragment {
     private RecyclerView mRecyclerView;
     private RecordItemRecyclerAdapter mRecyclerAdapter;
 
-    private CategoryDao mCategoryDao;
-    private RecordDao mRecordDao;
     private Category mCategory;
 
     private LocalBroadcastManager mLocalBroadcastManager;
@@ -59,7 +55,7 @@ public class RecordItemFragment extends BaseFragment {
             public void onReceive(Context context, Intent intent) {
                 int id = intent.getIntExtra(C.key.RECORD_ID, -1);
                 if (mCategory != null && id == mCategory.getId()) {
-                    List<Record> recordList = mRecordDao.getRecordsByCategory(mCategory.getId());
+                    List<Record> recordList = App.getApp().getDaoSession().getRecordDao().getRecordsByCategory(mCategory.getId());
                     mRecyclerAdapter.setData(recordList);
                 }
             }
@@ -77,14 +73,12 @@ public class RecordItemFragment extends BaseFragment {
 
         mRecyclerView = root.findViewById(R.id.record_item_recycler);
 
-        mCategoryDao = new CategoryDao();
-        mRecordDao = new RecordDao();
-        mCategory = mCategoryDao.getCategory(getArguments().getInt("CategoryId"));
+        mCategory = App.getApp().getDaoSession().getCategoryDao().getCategory(getArguments().getInt("CategoryId"));
 
         mRecyclerAdapter = new RecordItemRecyclerAdapter();
         mRecyclerView.setAdapter(mRecyclerAdapter);
 
-        List<Record> recordList = mRecordDao.getRecordsByCategory(mCategory.getId());
+        List<Record> recordList = App.getApp().getDaoSession().getRecordDao().getRecordsByCategory(mCategory.getId());
         mRecyclerAdapter.setData(recordList);
 
         return root;

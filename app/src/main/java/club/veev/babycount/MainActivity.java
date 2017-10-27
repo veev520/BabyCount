@@ -46,12 +46,9 @@ public class MainActivity extends BaseActivity
 
         setSupportActionBar(mToolbar);
 
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        mFab.setOnClickListener(view -> {
 //                AddCategoryActivity.start(MainActivity.this);
-                AddRecordActivity.start(MainActivity.this);
-            }
+            AddRecordActivity.start(MainActivity.this);
         });
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

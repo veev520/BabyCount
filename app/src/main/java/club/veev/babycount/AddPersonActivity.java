@@ -18,8 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import club.veev.babycount.base.BaseActivity;
-import club.veev.veevlibrary.bean.Person;
-import club.veev.veevlibrary.db.dao.PersonDao;
 import club.veev.veevlibrary.utils.DisplayUtil;
 import club.veev.veevlibrary.utils.WString;
 
@@ -41,7 +39,6 @@ public class AddPersonActivity extends BaseActivity {
     private TextView mTextDesc;
 
     private String mDesc;
-    private PersonDao mPersonDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,54 +56,29 @@ public class AddPersonActivity extends BaseActivity {
 
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddPersonActivity.this.finish();
+        mToolbar.setNavigationOnClickListener(view -> AddPersonActivity.this.finish());
+
+        mFab.setOnClickListener(view -> {
+            String name = mEditName.getText().toString().trim();
+            if (WString.isEmpty(name)) {
+                mEditName.setError(getResources().getString(R.string.Common_Not_Null));
+                return;
             }
+
+            int id = (int) App.getApp().getDaoSession().getPersonDao().insert(name, mDesc, "");
+            if (mSwitchUseImm.isChecked()) {
+                Intent intent = new Intent();
+                intent.putExtra(ADD_PERSON_RESPONSE_ID, id);
+                setResult(ADD_PERSON_SUCCESS, intent);
+            }
+            finish();
         });
 
-        mPersonDao = new PersonDao();
+        mRelativeUseImm.setOnClickListener(view -> mSwitchUseImm.toggle());
 
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String name = mEditName.getText().toString().trim();
-                if (WString.isEmpty(name)) {
-                    mEditName.setError(getResources().getString(R.string.Common_Not_Null));
-                    return;
-                }
+        mRelativeDesc.setOnClickListener(view -> showDialogEditDesc());
 
-                int id = (int) mPersonDao.insert(name, mDesc, "");
-                if (mSwitchUseImm.isChecked()) {
-                    Intent intent = new Intent();
-                    intent.putExtra(ADD_PERSON_RESPONSE_ID, id);
-                    setResult(ADD_PERSON_SUCCESS, intent);
-                }
-                finish();
-            }
-        });
-
-        mRelativeUseImm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mSwitchUseImm.toggle();
-            }
-        });
-
-        mRelativeDesc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDialogEditDesc();
-            }
-        });
-
-        mRelativeAvatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pickAvatar();
-            }
-        });
+        mRelativeAvatar.setOnClickListener(view -> pickAvatar());
     }
 
     /**
@@ -129,19 +101,11 @@ public class AddPersonActivity extends BaseActivity {
 
         builder.setTitle(R.string.Category_Desc)
                 .setView(editText)
-                .setPositiveButton(R.string.Common_Sure, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        mDesc = editText.getText().toString().trim();
-                        updateDesc();
-                    }
+                .setPositiveButton(R.string.Common_Sure, (dialogInterface, i) -> {
+                    mDesc = editText.getText().toString().trim();
+                    updateDesc();
                 })
-                .setNegativeButton(R.string.Common_Cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                })
+                .setNegativeButton(R.string.Common_Cancel, (dialogInterface, i) -> dialogInterface.dismiss())
                 .show();
     }
 

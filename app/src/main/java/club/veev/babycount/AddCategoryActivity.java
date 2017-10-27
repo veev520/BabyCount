@@ -16,7 +16,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import club.veev.babycount.base.BaseActivity;
-import club.veev.veevlibrary.db.dao.CategoryDao;
 import club.veev.veevlibrary.utils.DisplayUtil;
 import club.veev.veevlibrary.utils.WString;
 import club.veev.veevlibrary.utils.WToast;
@@ -33,8 +32,6 @@ public class AddCategoryActivity extends BaseActivity {
     private EditText mEditName, mEditUnit;
     private RelativeLayout mRelativeDesc;
     private TextView mTextDesc;
-
-    private CategoryDao mDao;
 
     private String mDesc;
 
@@ -53,43 +50,28 @@ public class AddCategoryActivity extends BaseActivity {
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddCategoryActivity.this.finish();
-            }
-        });
+        mToolbar.setNavigationOnClickListener(view -> AddCategoryActivity.this.finish());
 
-        mDao = new CategoryDao();
-
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String name = mEditName.getText().toString().trim();
-                String unit = mEditUnit.getText().toString().trim();
-                if (TextUtils.isEmpty(name)) {
+        mFab.setOnClickListener(view -> {
+            String name = mEditName.getText().toString().trim();
+            String unit = mEditUnit.getText().toString().trim();
+            if (TextUtils.isEmpty(name)) {
 //                    WToast.show(R.string.Common_Not_Null);
-                    mEditName.setError(getResources().getString(R.string.Common_Not_Null));
-                    return;
-                }
-                if (mDao.hasName(name)) {
-                    mEditName.setError(getResources().getString(R.string.Category_Already_Exists));
-                    return;
-                }
-
-                mDao.insert(name, mDesc, unit);
-                WToast.show(R.string.Common_Add_Successful);
-                LocalBroadcastManager.getInstance(AddCategoryActivity.this).sendBroadcast(new Intent(C.event.CATEGORY_CHANGED));
-                finish();
+                mEditName.setError(getResources().getString(R.string.Common_Not_Null));
+                return;
             }
+            if (App.getApp().getDaoSession().getCategoryDao().hasName(name)) {
+                mEditName.setError(getResources().getString(R.string.Category_Already_Exists));
+                return;
+            }
+
+            App.getApp().getDaoSession().getCategoryDao().insert(name, mDesc, unit);
+            WToast.show(R.string.Common_Add_Successful);
+            LocalBroadcastManager.getInstance(AddCategoryActivity.this).sendBroadcast(new Intent(C.event.CATEGORY_CHANGED));
+            finish();
         });
 
-        mRelativeDesc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDialogEditDesc();
-            }
-        });
+        mRelativeDesc.setOnClickListener(view -> showDialogEditDesc());
     }
 
     private void showDialogEditDesc() {
@@ -105,19 +87,11 @@ public class AddCategoryActivity extends BaseActivity {
 
         builder.setTitle(R.string.Category_Desc)
                 .setView(editText)
-                .setPositiveButton(R.string.Common_Sure, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        mDesc = editText.getText().toString().trim();
-                        updateDesc();
-                    }
+                .setPositiveButton(R.string.Common_Sure, (dialogInterface, i) -> {
+                    mDesc = editText.getText().toString().trim();
+                    updateDesc();
                 })
-                .setNegativeButton(R.string.Common_Cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                })
+                .setNegativeButton(R.string.Common_Cancel, (dialogInterface, i) -> dialogInterface.dismiss())
                 .show();
     }
 

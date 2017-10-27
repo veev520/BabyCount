@@ -68,12 +68,9 @@ public class TargetSelectorRecyclerAdapter extends RecyclerView.Adapter<Recycler
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == TYPE_PLACE) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    for (OnPersonSelectedListener listener : mOnItemClickListeners) {
-                        listener.onSelected(mList.get(holder.getAdapterPosition() - 1));
-                    }
+            holder.itemView.setOnClickListener(view -> {
+                for (OnPersonSelectedListener listener : mOnItemClickListeners) {
+                    listener.onSelected(mList.get(holder.getAdapterPosition() - 1));
                 }
             });
             ((TargetHolder) holder).mTextName.setText(mList.get(position - 1).getName());
@@ -81,12 +78,9 @@ public class TargetSelectorRecyclerAdapter extends RecyclerView.Adapter<Recycler
         }
 
         if (getItemViewType(position) == TYPE_DEFAULT) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    for (OnPersonSelectedListener listener : mOnItemClickListeners) {
-                        listener.selectNone();
-                    }
+            holder.itemView.setOnClickListener(view -> {
+                for (OnPersonSelectedListener listener : mOnItemClickListeners) {
+                    listener.selectNone();
                 }
             });
         }

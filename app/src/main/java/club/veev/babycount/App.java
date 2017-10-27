@@ -3,6 +3,7 @@ package club.veev.babycount;
 import android.app.Application;
 
 import club.veev.veevlibrary.VeevLibraryModule;
+import club.veev.veevlibrary.db.DaoSession;
 
 /**
  * Created by Veev on 2017/10/10
@@ -14,14 +15,29 @@ import club.veev.veevlibrary.VeevLibraryModule;
 
 public class App extends Application {
 
+    private static App sApp;
+    private DaoSession mDaoSession;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
+        sApp = this;
+
         initModule();
+
+        mDaoSession = new DaoSession();
     }
 
     private void initModule() {
         VeevLibraryModule.init(this);
+    }
+
+    public static App getApp() {
+        return sApp;
+    }
+
+    public DaoSession getDaoSession() {
+        return mDaoSession;
     }
 }

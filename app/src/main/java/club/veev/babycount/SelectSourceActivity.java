@@ -27,7 +27,6 @@ public class SelectSourceActivity extends BaseActivity {
     private RecyclerView mRecyclerView;
 
     private TargetSelectorRecyclerAdapter mRecyclerAdapter;
-    private PersonDao mPersonDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,21 +39,10 @@ public class SelectSourceActivity extends BaseActivity {
 
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SelectSourceActivity.this.finish();
-            }
-        });
+        mToolbar.setNavigationOnClickListener(view -> SelectSourceActivity.this.finish());
 
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddPersonActivity.startForResult(SelectSourceActivity.this, ADD_PERSON);
-            }
-        });
+        mFab.setOnClickListener(view -> AddPersonActivity.startForResult(SelectSourceActivity.this, ADD_PERSON));
 
-        mPersonDao = new PersonDao();
         mRecyclerAdapter = new TargetSelectorRecyclerAdapter();
         mRecyclerAdapter.addOnPersonSelectedListener(new TargetSelectorRecyclerAdapter.OnPersonSelectedListener() {
             @Override
@@ -68,13 +56,13 @@ public class SelectSourceActivity extends BaseActivity {
             }
         });
         mRecyclerView.setAdapter(mRecyclerAdapter);
-        mRecyclerAdapter.setData(mPersonDao.getAll());
+        mRecyclerAdapter.setData(App.getApp().getDaoSession().getPersonDao().getAll());
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ADD_PERSON) {
-            mRecyclerAdapter.setData(mPersonDao.getAll());
+            mRecyclerAdapter.setData(App.getApp().getDaoSession().getPersonDao().getAll());
             if (resultCode == AddPersonActivity.ADD_PERSON_SUCCESS) {
                 finishWithIntent(data);
             }

@@ -33,7 +33,7 @@ public class HomeFragment extends BaseFragment {
         mRecyclerView = view.findViewById(R.id.home_recycler_count);
 
         mHomeCountRecyclerAdapter = new HomeCountRecyclerAdapter();
-        mHomeCountRecyclerAdapter.setData(new RecordDao().getAll());
+        mHomeCountRecyclerAdapter.setData(App.getApp().getDaoSession().getRecordDao().getAll());
 
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override

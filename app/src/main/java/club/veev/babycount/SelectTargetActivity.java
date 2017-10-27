@@ -6,11 +6,9 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import club.veev.babycount.base.BaseActivity;
 import club.veev.veevlibrary.bean.Person;
-import club.veev.veevlibrary.db.dao.PersonDao;
 
 public class SelectTargetActivity extends BaseActivity {
 
@@ -27,7 +25,6 @@ public class SelectTargetActivity extends BaseActivity {
     private RecyclerView mRecyclerView;
 
     private TargetSelectorRecyclerAdapter mRecyclerAdapter;
-    private PersonDao mPersonDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,21 +37,10 @@ public class SelectTargetActivity extends BaseActivity {
 
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SelectTargetActivity.this.finish();
-            }
-        });
+        mToolbar.setNavigationOnClickListener(view -> SelectTargetActivity.this.finish());
 
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddPersonActivity.startForResult(SelectTargetActivity.this, ADD_PERSON);
-            }
-        });
+        mFab.setOnClickListener(view -> AddPersonActivity.startForResult(SelectTargetActivity.this, ADD_PERSON));
 
-        mPersonDao = new PersonDao();
         mRecyclerAdapter = new TargetSelectorRecyclerAdapter();
         mRecyclerAdapter.addOnPersonSelectedListener(new TargetSelectorRecyclerAdapter.OnPersonSelectedListener() {
             @Override
@@ -68,13 +54,13 @@ public class SelectTargetActivity extends BaseActivity {
             }
         });
         mRecyclerView.setAdapter(mRecyclerAdapter);
-        mRecyclerAdapter.setData(mPersonDao.getAll());
+        mRecyclerAdapter.setData(App.getApp().getDaoSession().getPersonDao().getAll());
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ADD_PERSON) {
-            mRecyclerAdapter.setData(mPersonDao.getAll());
+            mRecyclerAdapter.setData(App.getApp().getDaoSession().getPersonDao().getAll());
             if (resultCode == AddPersonActivity.ADD_PERSON_SUCCESS) {
                 finishWithIntent(data);
             }
