@@ -1,4 +1,4 @@
-package club.veev.babycount;
+package club.veev.babycount.category;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,6 +14,9 @@ import android.support.v7.widget.Toolbar;
 
 import java.util.List;
 
+import club.veev.babycount.App;
+import club.veev.babycount.C;
+import club.veev.babycount.R;
 import club.veev.babycount.base.BaseActivity;
 import club.veev.veevlibrary.bean.Category;
 import club.veev.veevlibrary.utils.WLog;

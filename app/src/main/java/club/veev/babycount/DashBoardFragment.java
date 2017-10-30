@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import club.veev.babycount.base.BaseFragment;
+import club.veev.babycount.category.EditCategoryActivity;
+import club.veev.babycount.category.WatchCategoryActivity;
 
 /**
  * Created by Veev on 2017/10/26

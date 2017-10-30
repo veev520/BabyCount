@@ -1,4 +1,4 @@
-package club.veev.babycount;
+package club.veev.babycount.home;
 
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import java.util.ArrayList;
+
+import club.veev.babycount.DashBoardFragment;
 
 /**
  * Created by Veev on 2017/7/2.

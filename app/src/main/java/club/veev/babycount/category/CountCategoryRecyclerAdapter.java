@@ -1,4 +1,4 @@
-package club.veev.babycount;
+package club.veev.babycount.category;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentLinkedDeque;
 
+import club.veev.babycount.R;
 import club.veev.veevlibrary.bean.Category;
 import club.veev.veevlibrary.utils.WToast;
 

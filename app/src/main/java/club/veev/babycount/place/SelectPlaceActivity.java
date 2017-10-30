@@ -1,4 +1,4 @@
-package club.veev.babycount;
+package club.veev.babycount.place;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
+import club.veev.babycount.App;
+import club.veev.babycount.R;
 import club.veev.babycount.base.BaseActivity;
 import club.veev.veevlibrary.bean.Place;
-import club.veev.veevlibrary.db.dao.PlaceDao;
 
 public class SelectPlaceActivity extends BaseActivity {
 

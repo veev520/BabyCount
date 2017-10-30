@@ -1,4 +1,4 @@
-package club.veev.babycount;
+package club.veev.babycount.category;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import club.veev.babycount.R;
 import club.veev.veevlibrary.bean.Record;
 import club.veev.veevlibrary.utils.WTime;
 
@@ -20,11 +21,11 @@ import club.veev.veevlibrary.utils.WTime;
  * Function:    HomeCountRecyclerAdapter
  */
 
-public class HomeCountRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class RecordItemRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Record> mList;
 
-    public HomeCountRecyclerAdapter() {
+    public RecordItemRecyclerAdapter() {
         mList = new ArrayList<>();
     }
 
@@ -36,7 +37,7 @@ public class HomeCountRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.item_home_count, parent, false);
+        View view = inflater.inflate(R.layout.item_record_item, parent, false);
         return new CountHolder(view);
     }
 
@@ -50,13 +51,9 @@ public class HomeCountRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
         ((CountHolder) holder).mTextView.setText(WTime.getFormatTime("yyyy-MM-dd HH:mm ", record.getTime()));
         ((CountHolder) holder).mTextValue.setText(record.getValueStr());
         ((CountHolder) holder).mTextUnit.setText(record.getUnit());
-        ((CountHolder) holder).mTextCategory.setText(record.getCategory().getName());
         ((CountHolder) holder).mTextSource.setText(record.getSource() == null ? "" : record.getSource().getName());
 
         ((CountHolder) holder).mTextPlace.setText(record.getPlace() == null ? "" : record.getPlace().getName());
-
-        holder.itemView.setOnClickListener(view ->
-                RecordDetailActivity.start(holder.itemView.getContext(), record.getId()));
     }
 
     @Override
@@ -65,17 +62,16 @@ public class HomeCountRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
     private class CountHolder extends RecyclerView.ViewHolder {
-        private TextView mTextView, mTextValue, mTextCategory, mTextPlace, mTextUnit, mTextSource;
+        private TextView mTextView, mTextValue, mTextPlace, mTextUnit, mTextSource;
 
         public CountHolder(View itemView) {
             super(itemView);
 
-            mTextView = itemView.findViewById(R.id.home_count_text_date);
-            mTextValue = itemView.findViewById(R.id.record_detail_text_value);
-            mTextCategory = itemView.findViewById(R.id.home_count_text_category);
-            mTextPlace = itemView.findViewById(R.id.home_count_text_place);
-            mTextUnit = itemView.findViewById(R.id.home_count_text_unit);
-            mTextSource = itemView.findViewById(R.id.home_count_text_source);
+            mTextView = itemView.findViewById(R.id.record_item_text_date);
+            mTextValue = itemView.findViewById(R.id.record_item_text_value);
+            mTextPlace = itemView.findViewById(R.id.record_item_text_place);
+            mTextUnit = itemView.findViewById(R.id.record_item_text_unit);
+            mTextSource = itemView.findViewById(R.id.record_item_text_source);
         }
     }
 }

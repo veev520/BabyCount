@@ -1,9 +1,10 @@
-package club.veev.babycount;
+package club.veev.babycount.category;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
@@ -14,6 +15,9 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import club.veev.babycount.App;
+import club.veev.babycount.C;
+import club.veev.babycount.R;
 import club.veev.babycount.base.BaseFragment;
 import club.veev.veevlibrary.bean.Category;
 import club.veev.veevlibrary.bean.Record;
@@ -76,6 +80,12 @@ public class RecordItemFragment extends BaseFragment {
         mCategory = App.getApp().getDaoSession().getCategoryDao().getCategory(getArguments().getInt("CategoryId"));
 
         mRecyclerAdapter = new RecordItemRecyclerAdapter();
+        mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                outRect.set(0, 5, 0, 5);
+            }
+        });
         mRecyclerView.setAdapter(mRecyclerAdapter);
 
         List<Record> recordList = App.getApp().getDaoSession().getRecordDao().getRecordsByCategory(mCategory.getId());

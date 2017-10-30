@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import club.veev.babycount.base.BaseActivity;
+import club.veev.babycount.home.FragmentHandle;
+import club.veev.babycount.record.AddRecordActivity;
 import club.veev.veevlibrary.utils.WTime;
 
 public class MainActivity extends BaseActivity

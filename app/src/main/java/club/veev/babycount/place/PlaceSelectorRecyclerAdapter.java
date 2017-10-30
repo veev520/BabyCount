@@ -1,4 +1,4 @@
-package club.veev.babycount;
+package club.veev.babycount.place;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import club.veev.babycount.R;
 import club.veev.veevlibrary.bean.Place;
 
 /**

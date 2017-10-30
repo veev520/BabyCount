@@ -1,4 +1,4 @@
-package club.veev.babycount;
+package club.veev.babycount.record;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -25,10 +25,18 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
+import club.veev.babycount.App;
+import club.veev.babycount.C;
+import club.veev.babycount.R;
 import club.veev.babycount.base.BaseActivity;
+import club.veev.babycount.category.AddCategoryActivity;
+import club.veev.babycount.category.CountCategoryRecyclerAdapter;
+import club.veev.babycount.person.AddPersonActivity;
+import club.veev.babycount.person.SelectSourceActivity;
+import club.veev.babycount.person.SelectTargetActivity;
+import club.veev.babycount.place.AddPlaceActivity;
+import club.veev.babycount.place.SelectPlaceActivity;
 import club.veev.veevlibrary.bean.Category;
-import club.veev.veevlibrary.bean.Person;
-import club.veev.veevlibrary.bean.Place;
 import club.veev.veevlibrary.bean.Record;
 import club.veev.veevlibrary.db.dao.CategoryDao;
 import club.veev.veevlibrary.db.dao.PersonDao;

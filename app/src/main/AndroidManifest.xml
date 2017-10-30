@@ -24,43 +24,43 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".AddRecordActivity"
+            android:name=".record.AddRecordActivity"
             android:label="@string/title_activity_add_record"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AddCategoryActivity"
+            android:name=".category.AddCategoryActivity"
             android:label="@string/title_activity_add_category"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SelectSourceActivity"
+            android:name=".person.SelectSourceActivity"
             android:label="@string/title_activity_select_source"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AddPersonActivity"
+            android:name=".person.AddPersonActivity"
             android:label="@string/title_activity_add_person"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SelectTargetActivity"
+            android:name=".person.SelectTargetActivity"
             android:label="@string/title_activity_select_target"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AddPlaceActivity"
+            android:name=".place.AddPlaceActivity"
             android:label="@string/title_activity_add_place"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SelectPlaceActivity"
+            android:name=".place.SelectPlaceActivity"
             android:label="@string/title_activity_select_place"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".WatchCategoryActivity"
+            android:name=".category.WatchCategoryActivity"
             android:label="@string/title_activity_watch_category"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".EditCategoryActivity"
+            android:name=".category.EditCategoryActivity"
             android:label="@string/title_activity_edit_category"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".RecordDetailActivity"
+            android:name=".record.RecordDetailActivity"
             android:label="@string/title_activity_record_detail"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
