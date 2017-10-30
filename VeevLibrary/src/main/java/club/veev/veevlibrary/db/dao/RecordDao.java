@@ -103,7 +103,42 @@ public class RecordDao {
         return list;
     }
 
-    public void insert(Category category, String title, String desc, float value, int place, int target, int source, long time) {
+    public Record getRecord(int id) {
+        SQLiteDatabase db = CountDBOpenHelper.getDefault().getWritableDatabase();
+        Cursor cursor = db.query(TABLE_NAME, null, COLUMN_ID + " = ?", new String[]{"" + id}, null, null, null);
+        Record record = null;
+
+        if (cursor.moveToFirst()) {
+            int rid = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
+
+            int categoryId = cursor.getInt(cursor.getColumnIndex(COLUMN_CATEGORY_ID));
+            Category category = new CategoryDao().getCategory(categoryId);
+            int targetId = cursor.getInt(cursor.getColumnIndex(COLUMN_TARGET_ID));
+            int sourceId = cursor.getInt(cursor.getColumnIndex(COLUMN_SOURCE_ID));
+            int place_id = cursor.getInt(cursor.getColumnIndex(COLUMN_PLACE_ID));
+
+            PersonDao personDao = new PersonDao();
+            Person target = personDao.getPerson(targetId);
+            Person source = personDao.getPerson(sourceId);
+            Place place = new PlaceDao().getPlace(place_id);
+
+            float value = cursor.getFloat(cursor.getColumnIndex(COLUMN_VALUE));
+            String title = cursor.getString(cursor.getColumnIndex(COLUMN_TITLE));
+            String desc = cursor.getString(cursor.getColumnIndex(COLUMN_DESC));
+            String unit = cursor.getString(cursor.getColumnIndex(COLUMN_UNIT));
+
+            long time = cursor.getLong(cursor.getColumnIndex(COLUMN_TIME));
+            long createdAt = cursor.getLong(cursor.getColumnIndex(COLUMN_CREATED));
+            long updatedAt = cursor.getLong(cursor.getColumnIndex(COLUMN_UPDATED));
+            record = new Record(rid, category, title, value, desc, unit, place, target, source, time, createdAt, updatedAt);
+        }
+
+        cursor.close();
+        WLog.i(TAG, "getRecord: " + record);
+        return record;
+    }
+
+    public int insert(Category category, String title, String desc, float value, int place, int target, int source, long time) {
         SQLiteDatabase db = CountDBOpenHelper.getDefault().getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_TITLE, title);
@@ -118,6 +153,24 @@ public class RecordDao {
         values.put(COLUMN_CREATED, System.currentTimeMillis());
         values.put(COLUMN_UPDATED, System.currentTimeMillis());
 
-        db.insert(TABLE_NAME, null, values);
+        int id = (int) db.insert(TABLE_NAME, null, values);
+        return id;
+    }
+
+    public void update(int id, Category category, String title, String desc, float value, int place, int target, int source, long time) {
+        SQLiteDatabase db = CountDBOpenHelper.getDefault().getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TITLE, title);
+        values.put(COLUMN_DESC, desc);
+        values.put(COLUMN_UNIT, category.getUnit());
+        values.put(COLUMN_VALUE, value);
+        values.put(COLUMN_CATEGORY_ID, category.getId());
+        values.put(COLUMN_PLACE_ID, place);
+        values.put(COLUMN_TARGET_ID, target);
+        values.put(COLUMN_SOURCE_ID, source);
+        values.put(COLUMN_TIME, time);
+        values.put(COLUMN_UPDATED, System.currentTimeMillis());
+
+        db.update(TABLE_NAME, values, COLUMN_ID + " = ?", new String[]{"" + id});
     }
 }

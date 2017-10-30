@@ -63,6 +63,14 @@ public class CountCategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerV
         return null;
     }
 
+    public void setCheckedCategory(Category checkedCategory) {
+        if (checkedCategory != null) {
+            mChooseId = checkedCategory.getId();
+
+            notifyDataSetChanged();
+        }
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());

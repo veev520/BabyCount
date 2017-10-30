@@ -27,6 +27,9 @@ import java.util.Calendar;
 
 import club.veev.babycount.base.BaseActivity;
 import club.veev.veevlibrary.bean.Category;
+import club.veev.veevlibrary.bean.Person;
+import club.veev.veevlibrary.bean.Place;
+import club.veev.veevlibrary.bean.Record;
 import club.veev.veevlibrary.db.dao.CategoryDao;
 import club.veev.veevlibrary.db.dao.PersonDao;
 import club.veev.veevlibrary.db.dao.PlaceDao;
@@ -40,6 +43,12 @@ public class AddRecordActivity extends BaseActivity {
 
     public static void start(Context context) {
         Intent intent = new Intent(context, AddRecordActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void edit(Context context, int recordId) {
+        Intent intent = new Intent(context, AddRecordActivity.class);
+        intent.putExtra(C.key.RECORD_ID, recordId);
         context.startActivity(intent);
     }
 
@@ -63,6 +72,9 @@ public class AddRecordActivity extends BaseActivity {
     // 描述
     private String mDesc = "";
     private int mPlaceId = -1, mTargetId = -1, mSourceId = -1;
+
+    private int mRecordId = -1;
+    private Record mRecord;
 
     /**
      * 初始化时间
@@ -104,39 +116,28 @@ public class AddRecordActivity extends BaseActivity {
         mPersonDao = App.getApp().getDaoSession().getPersonDao();
         mCategoryDao = App.getApp().getDaoSession().getCategoryDao();
 
-        mFab.setOnClickListener(view -> {
-            float value;
-            if (mCategoryDao.getLastId() == -1) {
-                Snackbar.make(view, R.string.CATEGORY_IS_EMPTY, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.Common_Go_To_Add, view1 -> AddCategoryActivity.start(AddRecordActivity.this)).show();
-                return;
-            }
-            try {
-                value = Float.valueOf(mEditValue.getText().toString().trim());
-            } catch (NumberFormatException e) {
-                mEditValue.setError(getResources().getString(R.string.Common_Not_Null));
-                return;
-            }
-            new RecordDao().insert(mCountCategoryRecyclerAdapter.getCheckedCategory(),
-                    "title",
-                    mDesc,
-                    value,
-                    mPlaceId,
-                    mTargetId,
-                    mSourceId,
-                    mCalendarInit.getTimeInMillis());
-
-            Intent intent = new Intent(C.event.RECORD_CHANGED);
-            intent.putExtra(C.key.RECORD_ID, mCountCategoryRecyclerAdapter.getCheckedCategory().getId());
-            LocalBroadcastManager.getInstance(AddRecordActivity.this).sendBroadcast(intent);
-
-            WToast.show(R.string.Common_Add_Successful);
-            finish();
-        });
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mRecyclerCategory.setLayoutManager(linearLayoutManager);
         mCountCategoryRecyclerAdapter = new CountCategoryRecyclerAdapter();
+
+        mRecordId = getIntent().getIntExtra(C.key.RECORD_ID, -1);
+        mRecord = App.getApp().getDaoSession().getRecordDao().getRecord(mRecordId);
+
+        if (mRecord != null) {
+            setRecordDetail();
+        }
+
+        updateTime();
+
+        mFab.setOnClickListener(view -> {
+            if (mRecordId == -1) {
+                insertRecord(view);
+            } else {
+                updateRecord(view);
+            }
+        });
+
+
         mRecyclerCategory.setAdapter(mCountCategoryRecyclerAdapter);
         mRecyclerCategory.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
@@ -183,9 +184,6 @@ public class AddRecordActivity extends BaseActivity {
 
         mCountCategoryRecyclerAdapter.setData(mCategoryDao.getAll());
         setCountUnit(mCountCategoryRecyclerAdapter.getCheckedCategory());
-
-        mTextDate.setText(WTime.getFormatTime("MMM dd", mCalendarInit.getTime()));
-        mTextTime.setText(WTime.getFormatTime("HH:mm", mCalendarInit.getTime()));
     }
 
     @Override
@@ -194,36 +192,107 @@ public class AddRecordActivity extends BaseActivity {
             case SELECT_PLACE:
                 if (resultCode == SelectPlaceActivity.SELECT_PLACE_SUCCESS) {
                     mPlaceId = data.getIntExtra(AddPlaceActivity.ADD_PLACE_RESPONSE_ID, -1);
-                    if (mPlaceId != -1) {
-                        mTextPlace.setText(mPlaceDao.getPlace(mPlaceId).getName());
-                        mTextLocation.setText(mPlaceDao.getPlace(mPlaceId).getLocation());
-                    } else {
-                        mTextPlace.setText("");
-                        mTextLocation.setText("");
-                    }
+                    updatePlace();
                 }
                 break;
             case SELECT_PERSON_TARGET:
                 if (resultCode == SelectTargetActivity.SELECT_TARGET_SUCCESS) {
                     mTargetId = data.getIntExtra(AddPersonActivity.ADD_PERSON_RESPONSE_ID, -1);
-                    if (mTargetId != -1) {
-                        mTextTarget.setText(mPersonDao.getPerson(mTargetId).getName());
-                    } else {
-                        mTextTarget.setText("");
-                    }
+                    updateTarget();
                 }
                 break;
             case SELECT_PERSON_SOURCE:
                 if (resultCode == SelectSourceActivity.SELECT_SOURCE_SUCCESS) {
                     mSourceId = data.getIntExtra(AddPersonActivity.ADD_PERSON_RESPONSE_ID, -1);
-                    if (mSourceId != -1) {
-                        mTextSource.setText(mPersonDao.getPerson(mSourceId).getName());
-                    } else {
-                        mTextSource.setText("");
-                    }
+                    updateSource();
                 }
                 break;
         }
+    }
+
+    private void setRecordDetail() {
+        mDesc = mRecord.getDesc();
+        updateDesc();
+
+        if (mRecord.getPlace() != null) {
+            mPlaceId = mRecord.getPlace().getId();
+            updatePlace();
+        }
+
+        if (mRecord.getTarget() != null) {
+            mTargetId = mRecord.getTarget().getId();
+            updateTarget();
+        }
+
+        if (mRecord.getSource() != null) {
+            mSourceId = mRecord.getSource().getId();
+            updateSource();
+        }
+
+        mCountCategoryRecyclerAdapter.setCheckedCategory(mRecord.getCategory());
+        mCalendarInit.setTimeInMillis(mRecord.getTime());
+        mEditValue.setText("" + mRecord.getValue());
+    }
+
+    private void insertRecord(View view) {
+        float value;
+        if (mCategoryDao.getLastId() == -1) {
+            Snackbar.make(view, R.string.CATEGORY_IS_EMPTY, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.Common_Go_To_Add, view1 -> AddCategoryActivity.start(AddRecordActivity.this)).show();
+            return;
+        }
+        try {
+            value = Float.valueOf(mEditValue.getText().toString().trim());
+        } catch (NumberFormatException e) {
+            mEditValue.setError(getResources().getString(R.string.Common_Not_Null));
+            return;
+        }
+        new RecordDao().insert(mCountCategoryRecyclerAdapter.getCheckedCategory(),
+                "title",
+                mDesc,
+                value,
+                mPlaceId,
+                mTargetId,
+                mSourceId,
+                mCalendarInit.getTimeInMillis());
+
+        Intent intent = new Intent(C.event.RECORD_CHANGED);
+        intent.putExtra(C.key.RECORD_ID, mCountCategoryRecyclerAdapter.getCheckedCategory().getId());
+        LocalBroadcastManager.getInstance(AddRecordActivity.this).sendBroadcast(intent);
+
+        WToast.show(R.string.Common_Add_Successful);
+        finish();
+    }
+
+    private void updateRecord(View view) {
+        float value;
+        if (mCategoryDao.getLastId() == -1) {
+            Snackbar.make(view, R.string.CATEGORY_IS_EMPTY, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.Common_Go_To_Add, view1 -> AddCategoryActivity.start(AddRecordActivity.this)).show();
+            return;
+        }
+        try {
+            value = Float.valueOf(mEditValue.getText().toString().trim());
+        } catch (NumberFormatException e) {
+            mEditValue.setError(getResources().getString(R.string.Common_Not_Null));
+            return;
+        }
+        new RecordDao().update(mRecordId,
+                mCountCategoryRecyclerAdapter.getCheckedCategory(),
+                "title",
+                mDesc,
+                value,
+                mPlaceId,
+                mTargetId,
+                mSourceId,
+                mCalendarInit.getTimeInMillis());
+
+        Intent intent = new Intent(C.event.RECORD_CHANGED);
+        intent.putExtra(C.key.RECORD_ID, mCountCategoryRecyclerAdapter.getCheckedCategory().getId());
+        LocalBroadcastManager.getInstance(AddRecordActivity.this).sendBroadcast(intent);
+
+        WToast.show(R.string.Common_Add_Successful);
+        finish();
     }
 
     private void showDialogEditDesc() {
@@ -253,6 +322,39 @@ public class AddRecordActivity extends BaseActivity {
         } else {
             mTextDesc.setText("");
         }
+    }
+
+    private void updatePlace() {
+        if (mPlaceId != -1) {
+            mTextPlace.setText(mPlaceDao.getPlace(mPlaceId).getName());
+            mTextLocation.setText(mPlaceDao.getPlace(mPlaceId).getLocation());
+            mTextLocation.setVisibility(View.VISIBLE);
+        } else {
+            mTextPlace.setText("");
+            mTextLocation.setText("");
+            mTextLocation.setVisibility(View.GONE);
+        }
+    }
+
+    private void updateTarget() {
+        if (mTargetId != -1) {
+            mTextTarget.setText(mPersonDao.getPerson(mTargetId).getName());
+        } else {
+            mTextTarget.setText("");
+        }
+    }
+
+    private void updateSource() {
+        if (mSourceId != -1) {
+            mTextSource.setText(mPersonDao.getPerson(mSourceId).getName());
+        } else {
+            mTextSource.setText("");
+        }
+    }
+
+    private void updateTime() {
+        mTextDate.setText(WTime.getFormatTime("MMM dd", mCalendarInit.getTime()));
+        mTextTime.setText(WTime.getFormatTime("HH:mm", mCalendarInit.getTime()));
     }
 
     private void showDatePicker() {
