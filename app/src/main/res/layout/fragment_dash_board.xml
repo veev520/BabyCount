@@ -28,7 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="188dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/pic_material_design_bg"
+                    android:src="@mipmap/pic_material_design_bg"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -101,7 +101,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="188dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/pic_material_design_bg"
+                    android:src="@mipmap/pic_material_design_bg"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -174,7 +174,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="188dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/pic_material_design_bg"
+                    android:src="@mipmap/pic_material_design_bg"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

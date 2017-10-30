@@ -1,5 +1,8 @@
 package club.veev.veevlibrary.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import club.veev.veevlibrary.utils.WTime;
 
 /**
@@ -9,7 +12,7 @@ import club.veev.veevlibrary.utils.WTime;
  * Email:       wei.wang@wuliangroup.com
  * Function:    Record
  */
-public class Record {
+public class Record implements Parcelable {
     private int id;
 
     /**
@@ -74,6 +77,46 @@ public class Record {
         this.time = time;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    protected Record(Parcel in) {
+        id = in.readInt();
+        title = in.readString();
+        value = in.readFloat();
+        desc = in.readString();
+        unit = in.readString();
+        time = in.readLong();
+        createdAt = in.readLong();
+        updatedAt = in.readLong();
+    }
+
+    public static final Creator<Record> CREATOR = new Creator<Record>() {
+        @Override
+        public Record createFromParcel(Parcel in) {
+            return new Record(in);
+        }
+
+        @Override
+        public Record[] newArray(int size) {
+            return new Record[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(title);
+        parcel.writeFloat(value);
+        parcel.writeString(desc);
+        parcel.writeString(unit);
+        parcel.writeLong(time);
+        parcel.writeLong(createdAt);
+        parcel.writeLong(updatedAt);
     }
 
     @Override

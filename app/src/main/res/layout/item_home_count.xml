@@ -13,7 +13,7 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/home_count_text_value"
+            android:id="@+id/record_detail_text_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorTextPrimary"
@@ -28,17 +28,17 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/home_count_text_value"
-            app:layout_constraintStart_toEndOf="@+id/home_count_text_value"
+            app:layout_constraintBottom_toBottomOf="@+id/record_detail_text_value"
+            app:layout_constraintStart_toEndOf="@+id/record_detail_text_value"
             tools:text="kg" />
 
         <TextView
             android:id="@+id/home_count_text_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/home_count_text_value"
+            android:layout_alignBaseline="@+id/record_detail_text_value"
             android:layout_marginBottom="8dp"
-            android:layout_toEndOf="@id/home_count_text_value"
+            android:layout_toEndOf="@id/record_detail_text_value"
             android:background="@drawable/shape_count_category_text"
             android:gravity="center"
             android:paddingEnd="8dp"
@@ -46,9 +46,9 @@
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:textColor="@color/colorTextPrimaryLight"
-            app:layout_constraintBottom_toBottomOf="@+id/home_count_text_value"
+            app:layout_constraintBottom_toBottomOf="@+id/record_detail_text_value"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/home_count_text_value"
+            app:layout_constraintTop_toTopOf="@+id/record_detail_text_value"
             tools:text="你好" />
 
         <TextView
@@ -56,8 +56,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="@+id/home_count_text_value"
-            app:layout_constraintTop_toBottomOf="@+id/home_count_text_value"
+            app:layout_constraintStart_toStartOf="@+id/record_detail_text_value"
+            app:layout_constraintTop_toBottomOf="@+id/record_detail_text_value"
             tools:text="早早" />
 
         <TextView
@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="@+id/home_count_text_value"
+            app:layout_constraintStart_toStartOf="@+id/record_detail_text_value"
             app:layout_constraintTop_toBottomOf="@+id/home_count_text_source"
             tools:text="2017-10-17 03:34" />
 

@@ -54,6 +54,9 @@ public class HomeCountRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
         ((CountHolder) holder).mTextSource.setText(record.getSource() == null ? "" : record.getSource().getName());
 
         ((CountHolder) holder).mTextPlace.setText(record.getPlace() == null ? "" : record.getPlace().getName());
+
+        holder.itemView.setOnClickListener(view ->
+                RecordDetailActivity.start(holder.itemView.getContext(), record.getId()));
     }
 
     @Override
@@ -68,7 +71,7 @@ public class HomeCountRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
             super(itemView);
 
             mTextView = itemView.findViewById(R.id.home_count_text_date);
-            mTextValue = itemView.findViewById(R.id.home_count_text_value);
+            mTextValue = itemView.findViewById(R.id.record_detail_text_value);
             mTextCategory = itemView.findViewById(R.id.home_count_text_category);
             mTextPlace = itemView.findViewById(R.id.home_count_text_place);
             mTextUnit = itemView.findViewById(R.id.home_count_text_unit);
