@@ -112,28 +112,7 @@ public class RecordDao {
             list = new ArrayList<>();
 
             do {
-                int id = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
-
-                int categoryId = cursor.getInt(cursor.getColumnIndex(COLUMN_CATEGORY_ID));
-                Category category = new CategoryDao().getCategory(categoryId);
-                int targetId = cursor.getInt(cursor.getColumnIndex(COLUMN_TARGET_ID));
-                int sourceId = cursor.getInt(cursor.getColumnIndex(COLUMN_SOURCE_ID));
-                int place_id = cursor.getInt(cursor.getColumnIndex(COLUMN_PLACE_ID));
-
-                PersonDao personDao = new PersonDao();
-                Person target = personDao.getPerson(targetId);
-                Person source = personDao.getPerson(sourceId);
-                Place place = new PlaceDao().getPlace(place_id);
-
-                float value = cursor.getFloat(cursor.getColumnIndex(COLUMN_VALUE));
-                String title = cursor.getString(cursor.getColumnIndex(COLUMN_TITLE));
-                String desc = cursor.getString(cursor.getColumnIndex(COLUMN_DESC));
-                String unit = cursor.getString(cursor.getColumnIndex(COLUMN_UNIT));
-
-                long time = cursor.getLong(cursor.getColumnIndex(COLUMN_TIME));
-                long createdAt = cursor.getLong(cursor.getColumnIndex(COLUMN_CREATED));
-                long updatedAt = cursor.getLong(cursor.getColumnIndex(COLUMN_UPDATED));
-                list.add(new Record(id, category, title, value, desc, unit, place, target, source, time, createdAt, updatedAt));
+                list.add(readEntity(cursor));
             } while (cursor.moveToNext());
         } else {
             list = Collections.emptyList();
@@ -144,34 +123,44 @@ public class RecordDao {
         return list;
     }
 
+    /**
+     * 读取记录
+     *
+     * @param cursor        游标
+     * @return              Record
+     */
+    private Record readEntity(Cursor cursor) {
+        int rid = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
+
+        int categoryId = cursor.getInt(cursor.getColumnIndex(COLUMN_CATEGORY_ID));
+        Category category = new CategoryDao().getCategory(categoryId);
+        int targetId = cursor.getInt(cursor.getColumnIndex(COLUMN_TARGET_ID));
+        int sourceId = cursor.getInt(cursor.getColumnIndex(COLUMN_SOURCE_ID));
+        int place_id = cursor.getInt(cursor.getColumnIndex(COLUMN_PLACE_ID));
+
+        PersonDao personDao = new PersonDao();
+        Person target = personDao.getPerson(targetId);
+        Person source = personDao.getPerson(sourceId);
+        Place place = new PlaceDao().getPlace(place_id);
+
+        float value = cursor.getFloat(cursor.getColumnIndex(COLUMN_VALUE));
+        String title = cursor.getString(cursor.getColumnIndex(COLUMN_TITLE));
+        String desc = cursor.getString(cursor.getColumnIndex(COLUMN_DESC));
+        String unit = cursor.getString(cursor.getColumnIndex(COLUMN_UNIT));
+
+        long time = cursor.getLong(cursor.getColumnIndex(COLUMN_TIME));
+        long createdAt = cursor.getLong(cursor.getColumnIndex(COLUMN_CREATED));
+        long updatedAt = cursor.getLong(cursor.getColumnIndex(COLUMN_UPDATED));
+        return new Record(rid, category, title, value, desc, unit, place, target, source, time, createdAt, updatedAt);
+    }
+
     public Record getRecord(int id) {
         SQLiteDatabase db = CountDBOpenHelper.getDefault().getWritableDatabase();
         Cursor cursor = db.query(TABLE_NAME, null, COLUMN_ID + " = ?", new String[]{"" + id}, null, null, null);
         Record record = null;
 
         if (cursor.moveToFirst()) {
-            int rid = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
-
-            int categoryId = cursor.getInt(cursor.getColumnIndex(COLUMN_CATEGORY_ID));
-            Category category = new CategoryDao().getCategory(categoryId);
-            int targetId = cursor.getInt(cursor.getColumnIndex(COLUMN_TARGET_ID));
-            int sourceId = cursor.getInt(cursor.getColumnIndex(COLUMN_SOURCE_ID));
-            int place_id = cursor.getInt(cursor.getColumnIndex(COLUMN_PLACE_ID));
-
-            PersonDao personDao = new PersonDao();
-            Person target = personDao.getPerson(targetId);
-            Person source = personDao.getPerson(sourceId);
-            Place place = new PlaceDao().getPlace(place_id);
-
-            float value = cursor.getFloat(cursor.getColumnIndex(COLUMN_VALUE));
-            String title = cursor.getString(cursor.getColumnIndex(COLUMN_TITLE));
-            String desc = cursor.getString(cursor.getColumnIndex(COLUMN_DESC));
-            String unit = cursor.getString(cursor.getColumnIndex(COLUMN_UNIT));
-
-            long time = cursor.getLong(cursor.getColumnIndex(COLUMN_TIME));
-            long createdAt = cursor.getLong(cursor.getColumnIndex(COLUMN_CREATED));
-            long updatedAt = cursor.getLong(cursor.getColumnIndex(COLUMN_UPDATED));
-            record = new Record(rid, category, title, value, desc, unit, place, target, source, time, createdAt, updatedAt);
+            record = readEntity(cursor);
         }
 
         cursor.close();

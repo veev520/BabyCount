@@ -1,7 +1,7 @@
 package club.veev.babycount.category;
 
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +12,6 @@ import java.util.List;
 
 import club.veev.babycount.R;
 import club.veev.veevlibrary.bean.Category;
-import club.veev.veevlibrary.utils.WToast;
 
 /**
  * Created by Veev on 2017/10/14
@@ -22,26 +21,30 @@ import club.veev.veevlibrary.utils.WToast;
  * Function:    CountCategoryRecyclerAdapter
  */
 
-public class CountCategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    private static final int TYPE_ADD = 0;
-    private static final int TYPE_CATEGORY = 1;
+public class CategoryListRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public interface OnCategoryCheckedListener {
         void onCategoryChecked(Category category);
     }
 
     private List<Category> mList;
+    private SparseArray<Integer> mCategoryCounts;
     private int mChooseId = 1;
     private List<OnCategoryCheckedListener> mCategoryCheckedListener;
 
-    public CountCategoryRecyclerAdapter() {
+    public CategoryListRecyclerAdapter(SparseArray<Integer> categoryCounts) {
         mCategoryCheckedListener = new ArrayList<>();
         mList = new ArrayList<>();
+        mCategoryCounts = categoryCounts;
     }
 
     public void setData(List<Category> list) {
         mList = list;
+        notifyDataSetChanged();
+    }
+
+    public void setCategoryCounts(SparseArray<Integer> categoryCounts) {
+        mCategoryCounts = categoryCounts;
         notifyDataSetChanged();
     }
 
@@ -98,83 +101,37 @@ public class CountCategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerV
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-
-        if (viewType == TYPE_ADD) {
-            View addItem = layoutInflater.inflate(R.layout.item_count_category_add, parent, false);
-            return new AddHolder(addItem);
-        }
-
-        View itemView = layoutInflater.inflate(R.layout.item_count_category, parent, false);
+        View itemView = layoutInflater.inflate(R.layout.item_category_list, parent, false);
         return new CategoryHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        if (getItemViewType(position) == TYPE_CATEGORY) {
-            final Category category = mList.get(position - 1);
-            holder.itemView.setOnClickListener(view -> {
-                mChooseId = category.getId();
-                if (!mCategoryCheckedListener.isEmpty()) {
-                    for (OnCategoryCheckedListener listener : mCategoryCheckedListener) {
-                        listener.onCategoryChecked(category);
-                    }
-                }
-                notifyDataSetChanged();
-            });
-
-            holder.itemView.setOnLongClickListener(view -> {
-                if (!TextUtils.isEmpty(category.getDesc())) {
-                    WToast.show(category.getDesc());
-                }
-                return false;
-            });
-
-            ((CategoryHolder) holder).mTextName.setText(category.getName());
-            if (category.getId() == mChooseId) {
-                ((CategoryHolder) holder).mTextName.setBackgroundResource(R.drawable.shape_count_category_text_choosed);
-            } else {
-                ((CategoryHolder) holder).mTextName.setBackgroundResource(R.drawable.shape_count_category_text);
-            }
-        }
-
-        if (getItemViewType(position) == TYPE_ADD) {
-            ((AddHolder) holder).mTextName.setOnClickListener(view -> AddCategoryActivity.start(view.getContext()));
-        }
+        Category category = mList.get(position);
+        Integer count = mCategoryCounts.get(category.getId());
+        ((CategoryHolder) holder).mTextName.setText(category.getName());
+        ((CategoryHolder) holder).mTextCount.setText((count == null ? 0 : count) + "个");
     }
 
     @Override
     public int getItemCount() {
-        return mList == null ? 1 : mList.size() + 1;
+        return mList == null ? 0 : mList.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) {
-            return TYPE_ADD;
-        }
-
-        return TYPE_CATEGORY;
+        return super.getItemViewType(position);
     }
 
     private class CategoryHolder extends RecyclerView.ViewHolder {
 
-        private TextView mTextName;
+        private TextView mTextName, mTextCount;
 
         public CategoryHolder(View itemView) {
             super(itemView);
 
             mTextName = itemView.findViewById(R.id.item_category_list_text_name);
-        }
-    }
-
-    private class AddHolder extends RecyclerView.ViewHolder {
-
-        private TextView mTextName;
-
-        public AddHolder(View itemView) {
-            super(itemView);
-
-            mTextName = itemView.findViewById(R.id.item_category_list_text_name);
+            mTextCount = itemView.findViewById(R.id.item_category_list_text_count);
         }
     }
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
@@ -19,6 +20,9 @@ public class EditCategoryActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
+    private RecyclerView mRecyclerView;
+    private CategoryListRecyclerAdapter mRecyclerAdapter;
+
     private Toolbar mToolbar;
     private FloatingActionButton mFab;
 
@@ -29,14 +33,25 @@ public class EditCategoryActivity extends BaseActivity {
 
         mToolbar = findViewById(R.id.edit_category_toolbar);
         mFab = findViewById(R.id.edit_category_fab);
+        mRecyclerView = findViewById(R.id.edit_category_recycler);
 
 
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationOnClickListener(view -> EditCategoryActivity.this.finish());
 
+        mRecyclerAdapter = new CategoryListRecyclerAdapter(App.getApp().getDaoSession().getRecordDao().getCategoryCount());
+        mRecyclerView.setAdapter(mRecyclerAdapter);
+
         mFab.setOnClickListener(view -> {
             Log.i(TAG, "onCreate: " + App.getApp().getDaoSession().getRecordDao().getCategoryCount());
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mRecyclerAdapter.setData(App.getApp().getDaoSession().getCategoryDao().getAll());
     }
 }
