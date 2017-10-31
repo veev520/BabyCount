@@ -3,6 +3,7 @@ package club.veev.veevlibrary.db.dao;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.SparseArray;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,6 +42,8 @@ public class RecordDao {
     private static String COLUMN_SOURCE_ID = "source_id";
     private static String COLUMN_CATEGORY_ID = "category_id";
 
+    private static String COLUMN_COUNT = "_count";
+
     public static final String CREATE_TABLE_COUNT = "CREATE TABLE " + TABLE_NAME + " (" +
             COLUMN_ID               +   " integer primary key autoincrement," +
             COLUMN_CATEGORY_ID      +   " integer,"     +
@@ -69,6 +72,35 @@ public class RecordDao {
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         return getAllRecord(COLUMN_CREATED + " > ?", new String[]{calendar.getTimeInMillis() + ""});
+    }
+
+    /**
+     * 获取每个分类的记录的数量
+     *
+     * @return
+     */
+    public SparseArray<Integer> getCategoryCount() {
+        SQLiteDatabase db = CountDBOpenHelper.getDefault().getWritableDatabase();
+        Cursor cursor = db.query(TABLE_NAME,
+                new String[]{"count(*) as " + COLUMN_COUNT , COLUMN_CATEGORY_ID},
+                null,
+                null,
+                "" + COLUMN_CATEGORY_ID,
+                null,
+                COLUMN_CATEGORY_ID + " asc");
+
+
+        SparseArray<Integer> array = new SparseArray<>();
+        if (cursor.moveToFirst()) {
+            do {
+                int count = cursor.getInt(cursor.getColumnIndex(COLUMN_COUNT));
+                int categoryId = cursor.getInt(cursor.getColumnIndex(COLUMN_CATEGORY_ID));
+                array.put(categoryId, count);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return array;
     }
 
     private List<Record> getAllRecord(String selection, String[] selectionArgs) {

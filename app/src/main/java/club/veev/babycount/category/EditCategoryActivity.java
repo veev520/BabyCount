@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
+import club.veev.babycount.App;
 import club.veev.babycount.R;
 import club.veev.babycount.base.BaseActivity;
 
@@ -33,7 +35,8 @@ public class EditCategoryActivity extends BaseActivity {
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationOnClickListener(view -> EditCategoryActivity.this.finish());
 
-        mFab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+        mFab.setOnClickListener(view -> {
+            Log.i(TAG, "onCreate: " + App.getApp().getDaoSession().getRecordDao().getCategoryCount());
+        });
     }
 }
