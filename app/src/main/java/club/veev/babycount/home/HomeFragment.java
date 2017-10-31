@@ -52,6 +52,6 @@ public class HomeFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
 
-        mHomeCountRecyclerAdapter.setData(new RecordDao().getAll());
+        mHomeCountRecyclerAdapter.setData(new RecordDao().getToday());
     }
 }

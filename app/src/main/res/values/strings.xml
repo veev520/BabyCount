@@ -21,6 +21,7 @@
     <string name="Place_Already_Exists">该地点已存在</string>
 
     <string name="Common_Add_Successful">添加成功</string>
+    <string name="Common_Update_Successful">修改成功</string>
     <string name="Category_Category">分类</string>
     <string name="Category_Name">名称</string>
     <string name="Category_Desc">描述</string>

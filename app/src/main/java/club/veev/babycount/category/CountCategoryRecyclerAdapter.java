@@ -56,11 +56,35 @@ public class CountCategoryRecyclerAdapter extends RecyclerView.Adapter<RecyclerV
         mCategoryCheckedListener.remove(listener);
     }
 
+    /**
+     * 获取选中的 分类
+     * @return
+     */
     public Category getCheckedCategory() {
-        if (mChooseId >= 1 && mChooseId <= mList.size()) {
-            return mList.get(mChooseId - 1);
+        for (Category category : mList) {
+            if (category.getId() == mChooseId) {
+                return category;
+            }
         }
         return null;
+    }
+
+    /**
+     * 获取选中的 分类 的 位置
+     * @return
+     */
+    public int getCheckedPosition() {
+        int position = 0;
+        for (Category category : mList) {
+            if (category.getId() == mChooseId) {
+                break;
+            }
+            position ++;
+        }
+        if (position > mList.size()) {
+            position = 0;
+        }
+        return position + 1;
     }
 
     public void setCheckedCategory(Category checkedCategory) {

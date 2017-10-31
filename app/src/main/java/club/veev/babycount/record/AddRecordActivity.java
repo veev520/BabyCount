@@ -191,6 +191,8 @@ public class AddRecordActivity extends BaseActivity {
         super.onResume();
 
         mCountCategoryRecyclerAdapter.setData(mCategoryDao.getAll());
+        // 让 category滚动到选中的位置
+        mRecyclerCategory.smoothScrollToPosition(mCountCategoryRecyclerAdapter.getCheckedPosition());
         setCountUnit(mCountCategoryRecyclerAdapter.getCheckedCategory());
     }
 
@@ -299,7 +301,7 @@ public class AddRecordActivity extends BaseActivity {
         intent.putExtra(C.key.RECORD_ID, mCountCategoryRecyclerAdapter.getCheckedCategory().getId());
         LocalBroadcastManager.getInstance(AddRecordActivity.this).sendBroadcast(intent);
 
-        WToast.show(R.string.Common_Add_Successful);
+        WToast.show(R.string.Common_Update_Successful);
         finish();
     }
 
@@ -384,6 +386,11 @@ public class AddRecordActivity extends BaseActivity {
         dialog.show();
     }
 
+    /**
+     * 设置单位
+     *
+     * @param category
+     */
     private void setCountUnit(Category category) {
         if (category == null || category.getUnit() == null) {
             mTextTitleUnit.setText("");

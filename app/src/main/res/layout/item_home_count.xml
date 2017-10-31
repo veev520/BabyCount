@@ -45,11 +45,14 @@
             android:paddingStart="8dp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
+            android:maxLength="10"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textColor="@color/colorTextPrimaryLight"
             app:layout_constraintBottom_toBottomOf="@+id/record_detail_text_value"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/record_detail_text_value"
-            tools:text="你好" />
+            tools:text="你好12345678910" />
 
         <TextView
             android:id="@+id/home_count_text_source"

@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -62,7 +63,15 @@ public class RecordDao {
         return getAllRecord(null, null);
     }
 
-    public List<Record> getAllRecord(String selection, String[] selectionArgs) {
+    public List<Record> getToday() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        return getAllRecord(COLUMN_CREATED + " > ?", new String[]{calendar.getTimeInMillis() + ""});
+    }
+
+    private List<Record> getAllRecord(String selection, String[] selectionArgs) {
         SQLiteDatabase db = CountDBOpenHelper.getDefault().getWritableDatabase();
         Cursor cursor = db.query(TABLE_NAME, null, selection, selectionArgs, null, null, COLUMN_ID + " desc");
         List<Record> list;

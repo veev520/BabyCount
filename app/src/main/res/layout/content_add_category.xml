@@ -37,7 +37,8 @@
             android:hint="@string/Category_Name"
             android:imeOptions="actionNext"
             android:inputType="text"
-            android:lines="1" />
+            android:lines="1"
+            android:maxLength="10"/>
 
         <View
             android:id="@+id/add_category_view_name"
