@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import club.veev.babycount.R;
+import club.veev.babycount.record.RecordDetailActivity;
 import club.veev.veevlibrary.bean.Record;
 import club.veev.veevlibrary.utils.WTime;
 
@@ -54,6 +55,9 @@ public class RecordItemRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
         ((CountHolder) holder).mTextSource.setText(record.getSource() == null ? "" : record.getSource().getName());
 
         ((CountHolder) holder).mTextPlace.setText(record.getPlace() == null ? "" : record.getPlace().getName());
+
+        holder.itemView.setOnClickListener(view ->
+                RecordDetailActivity.start(holder.itemView.getContext(), record.getId()));
     }
 
     @Override
