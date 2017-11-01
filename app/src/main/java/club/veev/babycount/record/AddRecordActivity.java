@@ -241,7 +241,7 @@ public class AddRecordActivity extends BaseActivity {
 
         mCountCategoryRecyclerAdapter.setCheckedCategory(mRecord.getCategory());
         mCalendarInit.setTimeInMillis(mRecord.getTime());
-        mEditValue.setText("" + mRecord.getValue());
+        mEditValue.setText(String.valueOf(mRecord.getValue()));
     }
 
     private void insertRecord(View view) {

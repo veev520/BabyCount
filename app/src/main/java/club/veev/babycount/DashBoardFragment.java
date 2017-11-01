@@ -98,15 +98,18 @@ public class DashBoardFragment extends BaseFragment {
     }
 
     private void updateCategory() {
-        mTextDescCate.setText(String.format(getString(R.string.Category_Count_F), "" + App.getApp().getDaoSession().getCategoryDao().count()));
+        mTextDescCate.setText(String.format(getString(R.string.Category_Count_F),
+                String.valueOf(App.getApp().getDaoSession().getCategoryDao().count())));
     }
 
     private void updatePlace() {
-        mTextDescPlace.setText(String.format(getString(R.string.Place_Count_F), "" + App.getApp().getDaoSession().getPlaceDao().count()));
+        mTextDescPlace.setText(String.format(getString(R.string.Place_Count_F),
+                String.valueOf(App.getApp().getDaoSession().getPlaceDao().count())));
     }
 
     private void updatePerson() {
-        mTextDescPerson.setText(String.format(getString(R.string.Person_Count_F), "" + App.getApp().getDaoSession().getPersonDao().count()));
+        mTextDescPerson.setText(String.format(getString(R.string.Person_Count_F),
+                String.valueOf(App.getApp().getDaoSession().getPersonDao().count())));
     }
 
     @Override

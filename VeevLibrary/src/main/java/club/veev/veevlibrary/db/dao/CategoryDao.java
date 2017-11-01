@@ -28,13 +28,26 @@ public class CategoryDao {
     private static String COLUMN_NAME = "name";
     private static String COLUMN_DESC = "desc";
     private static String COLUMN_UNIT = "unit";
+    private static String COLUMN_TYPE = "type";
+    private static String COLUMN_COVER = "cover";
     private static String COLUMN_CREATED = "createdAt";
     private static String COLUMN_UPDATED = "updatedAt";
+
+    /**
+     * 普通类型
+     */
+    public static final int TYPE_NORMAL = 0;
+    /**
+     * 单次事件
+     */
+    public static final int TYPE_SINGLE = 1;
 
     public static final String CREATE_TABLE_CATEGORY = "CREATE TABLE " + TABLE_NAME + " (" +
             COLUMN_ID               +   " integer primary key autoincrement," +
             COLUMN_NAME             +   " text,"    +
             COLUMN_DESC             +   " text,"    +
+            COLUMN_COVER            +   " text,"    +
+            COLUMN_TYPE             +   " integer," +
             COLUMN_CREATED          +   " real,"    +
             COLUMN_UPDATED          +   " real,"    +
             COLUMN_UNIT             +   " text)";

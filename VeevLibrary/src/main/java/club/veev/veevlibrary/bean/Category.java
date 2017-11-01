@@ -24,6 +24,14 @@ public class Category {
      */
     private String unit;
     /**
+     * 封面图片
+     */
+    private String cover;
+    /**
+     * 类型
+     */
+    private int type;
+    /**
      * 创建时间
      */
     private long createdAt;

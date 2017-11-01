@@ -44,7 +44,8 @@ public class EditCategoryActivity extends BaseActivity {
         mRecyclerView.setAdapter(mRecyclerAdapter);
 
         mFab.setOnClickListener(view -> {
-            Log.i(TAG, "onCreate: " + App.getApp().getDaoSession().getRecordDao().getCategoryCount());
+            AddCategoryActivity.start(EditCategoryActivity.this);
+//            Log.i(TAG, "onCreate: " + App.getApp().getDaoSession().getRecordDao().getCategoryCount());
         });
     }
 
