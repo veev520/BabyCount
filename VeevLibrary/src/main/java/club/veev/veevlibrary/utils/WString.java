@@ -12,6 +12,7 @@ import android.text.TextUtils;
 
 public class WString {
 
+    private static final String EMPTY_STR = "";
     //数字位
     public static String[] chnNumChar = {"零","一","二","三","四","五","六","七","八","九"};
     public static char[] chnNumChinese = {'零','一','二','三','四','五','六','七','八','九'};
@@ -68,6 +69,9 @@ public class WString {
      * 转换后:      Hello World 1 2 666
      */
     public static String convert2SingleLine(String str) {
+        if (isEmpty(str)) {
+            return EMPTY_STR;
+        }
         return str.replaceAll("\n", "\b");
     }
 

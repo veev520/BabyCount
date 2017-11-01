@@ -41,20 +41,15 @@ public class Category {
      */
     private long updatedAt;
 
-    public Category(int id, String name, String desc, String unit) {
-        this.id = id;
-        this.name = name;
-        this.desc = desc;
-        this.unit = unit;
-    }
-
-    public Category(int id, String name, String desc, String unit, long createdAt, long updatedAt) {
+    public Category(int id, String name, String desc, String unit, long createdAt, long updatedAt, String cover, int type) {
         this.id = id;
         this.name = name;
         this.desc = desc;
         this.unit = unit;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.cover = cover;
+        this.type = type;
     }
 
     @Override
@@ -64,6 +59,8 @@ public class Category {
         sb.append(", name='").append(name).append('\'');
         sb.append(", desc='").append(desc).append('\'');
         sb.append(", unit='").append(unit).append('\'');
+        sb.append(", cover='").append(cover).append('\'');
+        sb.append(", type=").append(type);
         sb.append(", createdAt=").append(WTime.getShowTime(createdAt));
         sb.append(", updatedAt=").append(WTime.getShowTime(updatedAt));
         sb.append('}');

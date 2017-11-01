@@ -3,7 +3,10 @@ package club.veev.veevlibrary.db.dao;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.IntDef;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,6 +45,10 @@ public class CategoryDao {
      */
     public static final int TYPE_SINGLE = 1;
 
+    @IntDef({TYPE_NORMAL, TYPE_SINGLE})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface CategoryType{}
+
     public static final String CREATE_TABLE_CATEGORY = "CREATE TABLE " + TABLE_NAME + " (" +
             COLUMN_ID               +   " integer primary key autoincrement," +
             COLUMN_NAME             +   " text,"    +
@@ -61,13 +68,7 @@ public class CategoryDao {
             list = new ArrayList<>();
 
             do {
-                int cid = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
-                String name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
-                String desc = cursor.getString(cursor.getColumnIndex(COLUMN_DESC));
-                String unit = cursor.getString(cursor.getColumnIndex(COLUMN_UNIT));
-                long createdAt = cursor.getLong(cursor.getColumnIndex(COLUMN_CREATED));
-                long updatedAt = cursor.getLong(cursor.getColumnIndex(COLUMN_UPDATED));
-                list.add(new Category(cid, name, desc, unit, createdAt, updatedAt));
+                list.add(readEntity(cursor));
             } while (cursor.moveToNext());
         } else {
             list = Collections.emptyList();
@@ -116,12 +117,14 @@ public class CategoryDao {
         return id;
     }
 
-    public void insert(String name, String desc, String unit) {
+    public void insert(String name, String desc, String unit, String cover, @CategoryType int type) {
         SQLiteDatabase db = CountDBOpenHelper.getDefault().getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, name);
         values.put(COLUMN_DESC, desc);
         values.put(COLUMN_UNIT, unit);
+        values.put(COLUMN_COVER, cover);
+        values.put(COLUMN_TYPE, type);
         values.put(COLUMN_CREATED, System.currentTimeMillis());
         values.put(COLUMN_UPDATED, System.currentTimeMillis());
 
@@ -135,17 +138,23 @@ public class CategoryDao {
         Category category = null;
 
         if (cursor.moveToFirst()) {
-            int cid = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
-            String name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
-            String desc = cursor.getString(cursor.getColumnIndex(COLUMN_DESC));
-            String unit = cursor.getString(cursor.getColumnIndex(COLUMN_UNIT));
-            long createdAt = cursor.getLong(cursor.getColumnIndex(COLUMN_CREATED));
-            long updatedAt = cursor.getLong(cursor.getColumnIndex(COLUMN_UPDATED));
-            category = new Category(cid, name, desc, unit, createdAt, updatedAt);
+            category = readEntity(cursor);
         }
 
         cursor.close();
         WLog.i(TAG, "getCategory: " + category);
         return category;
+    }
+
+    private Category readEntity(Cursor cursor) {
+        int cid = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
+        String name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
+        String desc = cursor.getString(cursor.getColumnIndex(COLUMN_DESC));
+        String unit = cursor.getString(cursor.getColumnIndex(COLUMN_UNIT));
+        long createdAt = cursor.getLong(cursor.getColumnIndex(COLUMN_CREATED));
+        long updatedAt = cursor.getLong(cursor.getColumnIndex(COLUMN_UPDATED));
+        int type = cursor.getInt(cursor.getColumnIndex(COLUMN_TYPE));
+        String cover = cursor.getString(cursor.getColumnIndex(COLUMN_COVER));
+        return  new Category(cid, name, desc, unit, createdAt, updatedAt, cover, type);
     }
 }

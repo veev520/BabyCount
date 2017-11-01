@@ -29,6 +29,7 @@
     <string name="Category_Source">Source</string>
     <string name="Category_Target">Target</string>
     <string name="Category_Unit">单位</string>
+    <string name="Category_Single">单次事件</string>
     <string name="Category_Count_F">%1$s个分类</string>
     <string name="Place_Count_F">%1$s个地点</string>
     <string name="Person_Count_F">%1$s个人物</string>

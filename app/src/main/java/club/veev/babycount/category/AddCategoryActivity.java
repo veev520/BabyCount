@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import club.veev.babycount.App;
 import club.veev.babycount.C;
 import club.veev.babycount.R;
 import club.veev.babycount.base.BaseActivity;
+import club.veev.veevlibrary.db.dao.CategoryDao;
 import club.veev.veevlibrary.utils.DisplayUtil;
 import club.veev.veevlibrary.utils.WString;
 import club.veev.veevlibrary.utils.WToast;
@@ -31,8 +34,9 @@ public class AddCategoryActivity extends BaseActivity {
     private Toolbar mToolbar;
     private FloatingActionButton mFab;
     private EditText mEditName, mEditUnit;
-    private RelativeLayout mRelativeDesc;
+    private RelativeLayout mRelativeDesc, mRelativeUnit, mRelativeSingle;
     private TextView mTextDesc;
+    private SwitchCompat mSwitchSingle;
 
     private String mDesc;
 
@@ -46,7 +50,10 @@ public class AddCategoryActivity extends BaseActivity {
         mEditName = findViewById(R.id.add_category_edit_name);
         mEditUnit = findViewById(R.id.add_category_edit_unit);
         mRelativeDesc = findViewById(R.id.add_category_relative_desc);
+        mRelativeUnit = findViewById(R.id.add_category_relative_unit);
+        mRelativeSingle = findViewById(R.id.add_category_relative_single);
         mTextDesc = findViewById(R.id.add_category_text_desc);
+        mSwitchSingle = findViewById(R.id.add_category_switch_single);
 
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
@@ -56,6 +63,10 @@ public class AddCategoryActivity extends BaseActivity {
         mFab.setOnClickListener(view -> {
             String name = mEditName.getText().toString().trim();
             String unit = mEditUnit.getText().toString().trim();
+            @CategoryDao.CategoryType int type = mSwitchSingle.isChecked()
+                    ? CategoryDao.TYPE_SINGLE
+                    : CategoryDao.TYPE_NORMAL;
+
             if (TextUtils.isEmpty(name)) {
 //                    WToast.show(R.string.Common_Not_Null);
                 mEditName.setError(getResources().getString(R.string.Common_Not_Null));
@@ -66,13 +77,15 @@ public class AddCategoryActivity extends BaseActivity {
                 return;
             }
 
-            App.getApp().getDaoSession().getCategoryDao().insert(name, mDesc, unit);
+            App.getApp().getDaoSession().getCategoryDao().insert(name, mDesc, unit, "", type);
             WToast.show(R.string.Common_Add_Successful);
             LocalBroadcastManager.getInstance(AddCategoryActivity.this).sendBroadcast(new Intent(C.event.CATEGORY_CHANGED));
             finish();
         });
 
         mRelativeDesc.setOnClickListener(view -> showDialogEditDesc());
+
+        mRelativeSingle.setOnClickListener(v -> mSwitchSingle.toggle());
     }
 
     private void showDialogEditDesc() {

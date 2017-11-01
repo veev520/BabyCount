@@ -51,6 +51,53 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/add_category_relative_single"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:paddingTop="16dp">
+
+        <ImageView
+            android:id="@+id/add_category_image_single"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_looks_one_grey_24dp" />
+
+        <TextView
+            android:id="@+id/add_category_text_single"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@+id/add_category_image_single"
+            android:textSize="@dimen/text_size_body"
+            android:gravity="center_vertical|start"
+            android:text="@string/Category_Single"
+            android:textColor="@color/colorTextState"
+            android:maxLines="2"
+            android:ellipsize="end"/>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/add_category_switch_single"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/add_category_text_single"
+            android:layout_alignBottom="@+id/add_category_text_single"
+            android:layout_marginEnd="16dp"
+            android:layout_alignParentEnd="true" />
+
+        <View
+            android:id="@+id/add_category_view_single"
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_marginTop="16dp"
+            android:layout_below="@+id/add_category_text_single"
+            android:layout_alignStart="@+id/add_category_text_single"
+            android:background="@color/colorDivider" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/add_category_relative_unit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
