@@ -19,4 +19,6 @@
     <color name="colorTextState">#868686</color>
     <color name="colorDivider">#B2B2B2</color>
     <color name="colorLightGreen">#f2faed</color>
+
+    <color name="grey">#FFB2B2B2</color>
 </resources>

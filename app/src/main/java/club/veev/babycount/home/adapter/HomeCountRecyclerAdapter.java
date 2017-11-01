@@ -1,4 +1,4 @@
-package club.veev.babycount.home;
+package club.veev.babycount.home.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,15 +22,15 @@ import club.veev.veevlibrary.utils.WTime;
  * Function:    HomeCountRecyclerAdapter
  */
 
-public class HomeWidgetRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class HomeCountRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Object> mList;
+    private List<Record> mList;
 
-    public HomeWidgetRecyclerAdapter() {
+    public HomeCountRecyclerAdapter() {
         mList = new ArrayList<>();
     }
 
-    public void setData(List<Object> list) {
+    public void setData(List<Record> list) {
         mList = list;
         notifyDataSetChanged();
     }
@@ -44,7 +44,21 @@ public class HomeWidgetRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+//        if (holder instanceof CountHolder) {
+//
+//        }
 
+        Record record = mList.get(position);
+        ((CountHolder) holder).mTextView.setText(WTime.getFormatTime("yyyy-MM-dd HH:mm ", record.getTime()));
+        ((CountHolder) holder).mTextValue.setText(record.getValueStr());
+        ((CountHolder) holder).mTextUnit.setText(record.getUnit());
+        ((CountHolder) holder).mTextCategory.setText(record.getCategory().getName());
+        ((CountHolder) holder).mTextSource.setText(record.getSource() == null ? "" : record.getSource().getName());
+
+        ((CountHolder) holder).mTextPlace.setText(record.getPlace() == null ? "" : record.getPlace().getName());
+
+        holder.itemView.setOnClickListener(view ->
+                RecordDetailActivity.start(holder.itemView.getContext(), record.getId()));
     }
 
     @Override
