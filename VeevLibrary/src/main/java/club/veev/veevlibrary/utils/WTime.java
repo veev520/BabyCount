@@ -62,35 +62,39 @@ public class WTime {
         return dateFormat.format(date);
     }
 
-    public static String getAge(int y, int m, int d) {
+    /**
+     * 获取年龄
+     * @param birthYear         出生年份
+     * @param birthMonth        出生月份
+     * @param birthDay          出生日
+     *
+     * @return                  1岁 2月 3天
+     */
+    public static String getAge(int birthYear, int birthMonth, int birthDay) {
         Calendar birth = Calendar.getInstance();
-        birth.set(Calendar.YEAR, y);
-        birth.set(Calendar.MONTH, m);
-        birth.set(Calendar.DAY_OF_MONTH, d);
+        birth.set(Calendar.YEAR, birthYear);
+        birth.set(Calendar.MONTH, birthMonth);
+        birth.set(Calendar.DAY_OF_MONTH, birthDay);
         Calendar now = Calendar.getInstance();
-        int deltaDay = now.get(Calendar.DAY_OF_YEAR) - birth.get(Calendar.DAY_OF_YEAR);
+        int deltaDay = now.get(Calendar.DAY_OF_MONTH) - birth.get(Calendar.DAY_OF_MONTH) + 1;
+        int deltaMonth = now.get(Calendar.MONTH) - birth.get(Calendar.MONTH);
+        int deltaYear = now.get(Calendar.YEAR) - birth.get(Calendar.YEAR);
 
-        int year = deltaDay / 365;
-        int month = deltaDay % 365 / 30;
+        if (deltaDay < 0) {
+            deltaDay += birth.getActualMaximum(Calendar.DATE);//得到一个月最大的一天就是一个月多少天
+            deltaMonth -= 1;
+        }
 
-        if (year >= 2) {
-            if (month >= 6 && year <= 10) {
-                return WString.convertInt2Ch(year) + "岁半";
+        if (deltaMonth < 0) {
+            deltaYear -= 1;
+        }
+
+        if (deltaYear == 0) {
+            if (deltaMonth == 0) {
+                return String.format(Locale.CHINA, "%1$d天", deltaDay);
             }
-            return WString.convertInt2Ch(year) + "岁";
+            return String.format(Locale.CHINA, "%1$d月 %2$d天", deltaMonth, deltaDay);
         }
-
-        if (year >= 1) {
-            if (month > 0) {
-                return "一岁零" + WString.convertInt2Ch(month) + "个月";
-            } else {
-                return "一岁";
-            }
-        }
-
-        if (month > 2)  {
-            return WString.convertInt2Ch(month) + "个月";
-        }
-        return deltaDay + "天";
+        return String.format(Locale.CHINA, "%1$d岁 %2$d月 %3$d天", deltaYear, deltaMonth, deltaDay);
     }
 }
