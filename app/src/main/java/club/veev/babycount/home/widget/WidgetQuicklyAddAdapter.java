@@ -1,6 +1,7 @@
 package club.veev.babycount.home.widget;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,7 @@ import java.util.List;
 import club.veev.babycount.R;
 import club.veev.babycount.entity.NoData;
 import club.veev.babycount.entity.WidgetQuicklyAdd;
-import club.veev.babycount.home.adapter.CommonNoDataAdapter;
+import club.veev.babycount.home.adapter.QuicklyAddItemNoDataAdapter;
 import me.drakeet.multitype.ItemViewBinder;
 import me.drakeet.multitype.MultiTypeAdapter;
 
@@ -46,6 +47,7 @@ public class WidgetQuicklyAddAdapter extends ItemViewBinder<WidgetQuicklyAdd, Wi
         private RecyclerView mRecyclerView;
         private MultiTypeAdapter mMultiTypeAdapter;
         private List<Object> mList;
+        private GridLayoutManager mGridManager;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -58,10 +60,24 @@ public class WidgetQuicklyAddAdapter extends ItemViewBinder<WidgetQuicklyAdd, Wi
             mImageIcon.setImageResource(R.drawable.ic_add_circle_black_24dp);
 
             mMultiTypeAdapter = new MultiTypeAdapter();
-            mMultiTypeAdapter.register(NoData.class, new CommonNoDataAdapter());
+            mGridManager = new GridLayoutManager(itemView.getContext(), 4);
+            mList = new ArrayList<>();
+
+            mMultiTypeAdapter.register(NoData.class, new QuicklyAddItemNoDataAdapter());
+
+            mRecyclerView.setLayoutManager(mGridManager);
             mRecyclerView.setAdapter(mMultiTypeAdapter);
 
-            mList = new ArrayList<>();
+            mGridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    if (mList.size() == 1 && position == 0) {
+                        return 4;
+                    }
+                    return 1;
+                }
+            });
+
             mList.add(new NoData());
             mMultiTypeAdapter.setItems(mList);
             mMultiTypeAdapter.notifyDataSetChanged();

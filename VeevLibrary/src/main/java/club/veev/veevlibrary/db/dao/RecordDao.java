@@ -71,7 +71,7 @@ public class RecordDao {
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
-        return getAllRecord(COLUMN_CREATED + " > ?", new String[]{calendar.getTimeInMillis() + ""});
+        return getAllRecord(COLUMN_TIME + " > ?", new String[]{calendar.getTimeInMillis() + ""});
     }
 
     /**

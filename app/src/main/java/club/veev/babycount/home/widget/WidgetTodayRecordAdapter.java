@@ -22,12 +22,9 @@ import club.veev.babycount.C;
 import club.veev.babycount.R;
 import club.veev.babycount.entity.NoData;
 import club.veev.babycount.entity.WidgetTodayRecord;
-import club.veev.babycount.home.adapter.CommonNoDataAdapter;
-import club.veev.babycount.home.adapter.HomeCountRecyclerAdapter;
 import club.veev.babycount.home.adapter.HomeTodayRecordRecyclerAdapter;
-import club.veev.veevlibrary.bean.Category;
+import club.veev.babycount.home.adapter.TodayRecordNoDataAdapter;
 import club.veev.veevlibrary.bean.Record;
-import club.veev.veevlibrary.utils.WLog;
 import me.drakeet.multitype.ItemViewBinder;
 import me.drakeet.multitype.MultiTypeAdapter;
 
@@ -83,6 +80,7 @@ public class WidgetTodayRecordAdapter extends ItemViewBinder<WidgetTodayRecord, 
 //            mRecyclerAdapter = new HomeCountRecyclerAdapter();
             mMultiTypeAdapter = new MultiTypeAdapter();
             mMultiTypeAdapter.register(Record.class, new HomeTodayRecordRecyclerAdapter());
+            mMultiTypeAdapter.register(NoData.class, new TodayRecordNoDataAdapter());
 
             mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
                 @Override
@@ -94,11 +92,18 @@ public class WidgetTodayRecordAdapter extends ItemViewBinder<WidgetTodayRecord, 
             mRecyclerView.setAdapter(mMultiTypeAdapter);
 
             mList = new ArrayList<>();
+            mList.add(new NoData());
+
             mLocalBroadcastManager = LocalBroadcastManager.getInstance(itemView.getContext());
         }
 
         private void update() {
-            mMultiTypeAdapter.setItems(App.getApp().getDaoSession().getRecordDao().getToday());
+            List<Record> list = App.getApp().getDaoSession().getRecordDao().getToday();
+            if (list.isEmpty()) {
+                mMultiTypeAdapter.setItems(mList);
+            } else {
+                mMultiTypeAdapter.setItems(App.getApp().getDaoSession().getRecordDao().getToday());
+            }
             mMultiTypeAdapter.notifyDataSetChanged();
         }
 

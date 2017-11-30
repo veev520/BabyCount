@@ -5,8 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import club.veev.babycount.R;
 import club.veev.babycount.entity.NoData;
@@ -20,7 +18,7 @@ import me.drakeet.multitype.ItemViewBinder;
  * Function:    WidgetQuicklyAddAdapter
  */
 
-public class CommonNoDataAdapter extends ItemViewBinder<NoData, CommonNoDataAdapter.ViewHolder> {
+public class QuicklyAddItemNoDataAdapter extends ItemViewBinder<NoData, QuicklyAddItemNoDataAdapter.ViewHolder> {
 
     private View.OnClickListener mOnClickListener;
 
@@ -31,12 +29,12 @@ public class CommonNoDataAdapter extends ItemViewBinder<NoData, CommonNoDataAdap
 
     @NonNull
     @Override
-    protected CommonNoDataAdapter.ViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        return new ViewHolder(inflater.inflate(R.layout.item_no_data, parent, false));
+    protected QuicklyAddItemNoDataAdapter.ViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
+        return new ViewHolder(inflater.inflate(R.layout.item_quick_add_item_no_data, parent, false));
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull CommonNoDataAdapter.ViewHolder holder, @NonNull NoData item) {
+    protected void onBindViewHolder(@NonNull QuicklyAddItemNoDataAdapter.ViewHolder holder, @NonNull NoData item) {
         if (mOnClickListener != null) {
             holder.itemView.setOnClickListener(mOnClickListener);
         }
