@@ -83,6 +83,8 @@ public class MainActivity extends BaseActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (mPosition != 0){
+            showFragment(0);
         } else {
             super.onBackPressed();
         }
@@ -124,11 +126,9 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.main_nav_main) {
-            mPosition = 0;
-            mFragmentHandle.showFragment(mPosition);
+            showFragment(0);
         } else if (id == R.id.main_nav_dashboard) {
-            mPosition = 1;
-            mFragmentHandle.showFragment(mPosition);
+            showFragment(1);
         } else if (id == R.id.main_nav_count) {
 
         } else if (id == R.id.main_nav_mine) {
@@ -141,5 +141,10 @@ public class MainActivity extends BaseActivity
 
         mDrawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showFragment(int position) {
+        mPosition = position;
+        mFragmentHandle.showFragment(mPosition);
     }
 }
