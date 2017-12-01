@@ -10,7 +10,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
@@ -39,6 +41,7 @@ public class EditCategoryActivity extends BaseActivity {
     private CategoryListRecyclerAdapter mRecyclerAdapter;
 
     private AppBarLayout mAppBar;
+    private CollapsingToolbarLayout mToolbarLayout;
     private Toolbar mToolbar;
     private FloatingActionButton mFab;
 
@@ -51,6 +54,7 @@ public class EditCategoryActivity extends BaseActivity {
         setContentView(R.layout.activity_edit_category);
 
         mAppBar = findViewById(R.id.edit_category_app_bar);
+        mToolbarLayout = findViewById(R.id.edit_category_toolbar_layout);
         mToolbar = findViewById(R.id.edit_category_toolbar);
         mFab = findViewById(R.id.edit_category_fab);
         mRecyclerView = findViewById(R.id.edit_category_recycler);
@@ -117,32 +121,26 @@ public class EditCategoryActivity extends BaseActivity {
         if (resultCode == Activity.RESULT_OK && data != null) {
             if (requestCode == 0) {
                 Uri uri = data.getData();
-                WLog.i(TAG, "onActivityResult: " + uri.getPath());
-                cutPic(uri);
-            } else if (requestCode == 1) {
-                Uri uri = data.getData();
                 ContentResolver cr = getContentResolver();
+                String path = getExternalCacheDir().getPath() + "/temp.jpg";
+                File file = new File(path);
+                if (file.exists()) {
+                    file.delete();
+                }
+
+                Bitmap bmp = null;
                 try {
-                    Bitmap bmp = BitmapFactory.decodeStream(cr.openInputStream(uri));
-                    Drawable drawable = new BitmapDrawable(bmp);
-                    mAppBar.setBackground(drawable);
-                } catch (FileNotFoundException e) {
+                    FileOutputStream fos = new FileOutputStream(file);
+                    bmp = MediaStore.Images.Media.getBitmap(cr, uri);
+                    bmp.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+                    fos.flush();
+                    fos.close();
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
+                Drawable drawable = new BitmapDrawable(bmp);
+                mToolbarLayout.setBackground(drawable);
             }
         }
-    }
-
-    private void cutPic(Uri uri) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        intent.putExtra("outputX", 150);
-        intent.putExtra("outputY", 150);
-        intent.putExtra("return-data", true);
-        //打开裁剪的activity,并且获取到裁剪图片(在第二步的RESIZE_REQUEST_CODE请求码中处理)
-        startActivityForResult(intent, 1);
     }
 }
